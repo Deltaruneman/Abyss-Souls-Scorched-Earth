@@ -26,10 +26,22 @@ public class Enemy : MonoBehaviour
     [Tooltip("Layer chứa object Player (để lọc bớt trước khi lấy component)")]
     public LayerMask playerLayer;
 
+    [Header("Chase Movement")]
+    [Tooltip("Khoảng cách tối đa để địch phát hiện và bắt đầu đuổi theo Player (dùng chung playerLayer ở trên để lọc)")]
+    public float detectionRange = 6f;
+    [Tooltip("Khoảng cách địch sẽ dừng lại, không tiến sát thêm nữa (thường dùng để tránh chồng lên Player)")]
+    public float stoppingDistance = 0.6f;
+    [Tooltip("Tốc độ di chuyển của địch khi đuổi theo Player")]
+    public float moveSpeed = 2.5f;
+    [Tooltip("Có tự động lật sprite (flip theo trục X) theo hướng di chuyển hay không")]
+    public bool flipSpriteTowardsTarget = true;
+
     private float invulnerabilityTimer;
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
     private bool isDead;
+    private Rigidbody2D rb;
+    private Transform currentTarget;
 
     private void Awake()
     {
@@ -39,6 +51,8 @@ public class Enemy : MonoBehaviour
         {
             originalColor = spriteRenderer.color;
         }
+
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -46,6 +60,66 @@ public class Enemy : MonoBehaviour
         if (invulnerabilityTimer > 0f)
         {
             invulnerabilityTimer -= Time.deltaTime;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        ChasePlayer();
+    }
+
+    /// <summary>
+    /// Dò tìm Player trong bán kính detectionRange bằng playerLayer (Physics2D.OverlapCircle),
+    /// nếu tìm thấy thì di chuyển về phía đó. Dùng Rigidbody2D nếu có (khuyến khích cho vật lý 2D),
+    /// nếu không có Rigidbody2D thì fallback dùng transform.position trực tiếp.
+    /// </summary>
+    private void ChasePlayer()
+    {
+        if (isDead) return;
+
+        // Quét theo layer thay vì tag, dùng chung playerLayer với hệ thống Contact Damage bên dưới
+        Collider2D hit = Physics2D.OverlapCircle(transform.position, detectionRange, playerLayer);
+        currentTarget = hit != null ? (hit.attachedRigidbody != null ? hit.attachedRigidbody.transform : hit.transform) : null;
+
+        if (currentTarget == null)
+        {
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector2.zero;
+            }
+            return;
+        }
+
+        Vector2 toPlayer = (Vector2)currentTarget.position - (Vector2)transform.position;
+        float distance = toPlayer.magnitude;
+
+        if (distance <= stoppingDistance)
+        {
+            // Đã đủ gần Player -> đứng yên
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector2.zero;
+            }
+            return;
+        }
+
+        Vector2 direction = toPlayer.normalized;
+
+        if (rb != null)
+        {
+            rb.linearVelocity = direction * moveSpeed;
+        }
+        else
+        {
+            transform.position += (Vector3)(direction * moveSpeed * Time.fixedDeltaTime);
+        }
+
+        if (flipSpriteTowardsTarget && spriteRenderer != null)
+        {
+            if (Mathf.Abs(direction.x) > 0.01f)
+            {
+                spriteRenderer.flipX = direction.x < 0f;
+            }
         }
     }
 
@@ -123,6 +197,11 @@ public class Enemy : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
 
         onDeath?.Invoke();
 

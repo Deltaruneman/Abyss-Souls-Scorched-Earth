@@ -2,6 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum WeaponType
+{
+    Melee,
+    Ranged
+}
+
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
@@ -105,6 +111,22 @@ public class PlayerController : MonoBehaviour
     private readonly Collider2D[] attackHitResults = new Collider2D[8];
     private float attackCooldownTimer;
 
+    [Header("Weapon Switch")]
+    [Tooltip("Phím dùng để chuyển đổi giữa vũ khí cận chiến và vũ khí tầm xa")]
+    public KeyCode switchWeaponKey = KeyCode.U;
+    [Tooltip("Loại vũ khí hiện tại (có thể set sẵn trong Inspector)")]
+    public WeaponType currentWeapon = WeaponType.Melee;
+
+    [Header("Ranged Weapon")]
+    [Tooltip("Prefab đạn (Bullet) sẽ được bắn ra khi tấn công bằng vũ khí tầm xa")]
+    public GameObject bulletPrefab;
+    [Tooltip("Tốc độ bay của đạn")]
+    public float bulletSpeed = 15f;
+    [Tooltip("Sát thương của đạn")]
+    public int bulletDamage = 10;
+    [Tooltip("Điểm xuất phát của đạn, mặc định dùng chung attackPoint. Để trống nếu muốn dùng attackPoint.")]
+    public Transform firePoint;
+
     [Header("Health")]
     [Tooltip("Máu tối đa của Player")]
     public int maxHealth = 100;
@@ -184,6 +206,11 @@ public class PlayerController : MonoBehaviour
         if (attackCooldownTimer > 0f)
         {
             attackCooldownTimer -= Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown(switchWeaponKey))
+        {
+            SwitchWeapon();
         }
 
         if (Input.GetKeyDown(attackKey) && attackCooldownTimer <= 0f)
@@ -460,9 +487,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Đổi giữa vũ khí cận chiến (Melee) và vũ khí tầm xa (Ranged).
+    /// Có thể gọi hàm này từ UI (nút bấm) nếu cần, không chỉ từ phím tắt.
+    /// </summary>
+    public void SwitchWeapon()
+    {
+        currentWeapon = currentWeapon == WeaponType.Melee ? WeaponType.Ranged : WeaponType.Melee;
+    }
+
     private void PerformAttack()
     {
         if (attackPoint == null) return;
+
+        if (currentWeapon == WeaponType.Ranged)
+        {
+            PerformRangedAttack();
+            return;
+        }
 
         // Quét vùng hitbox tấn công, lọc theo layer (enemyLayer). Object nằm
         // đúng layer là được coi là địch, không cần kiểm tra thêm tag.
@@ -479,6 +521,40 @@ public class PlayerController : MonoBehaviour
             {
                 enemy.TakeDamage(attackDamage);
             }
+        }
+    }
+
+    /// <summary>
+    /// Bắn ra một viên đạn (prefab Bullet) theo hướng player đang nhìn.
+    /// Yêu cầu bulletPrefab đã được gán trong Inspector và có script Bullet (hoặc Rigidbody2D) đính kèm.
+    /// </summary>
+    private void PerformRangedAttack()
+    {
+        if (bulletPrefab == null)
+        {
+            Debug.LogWarning("PlayerController: chưa gán bulletPrefab, không thể bắn.");
+            return;
+        }
+
+        Transform spawnPoint = firePoint != null ? firePoint : attackPoint;
+        Vector2 direction = facingRight ? Vector2.right : Vector2.left;
+
+        GameObject bulletObj = Instantiate(bulletPrefab, spawnPoint.position, Quaternion.identity);
+
+        // Ưu tiên dùng script Bullet nếu có (cách khuyến khích, dễ tuỳ chỉnh sát thương/tốc độ/hướng)
+        Bullet bullet = bulletObj.GetComponent<Bullet>();
+        if (bullet != null)
+        {
+            bullet.Init(direction, bulletSpeed, bulletDamage);
+            return;
+        }
+
+        // Fallback: nếu prefab chỉ có Rigidbody2D mà không có script Bullet,
+        // vẫn cho đạn bay được bằng cách set thẳng vận tốc.
+        Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
+        if (bulletRb != null)
+        {
+            bulletRb.linearVelocity = direction * bulletSpeed;
         }
     }
 
