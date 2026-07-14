@@ -37,6 +37,7 @@ public class Enemy : MonoBehaviour
     public bool flipSpriteTowardsTarget = true;
 
     private float invulnerabilityTimer;
+    private float knockbackLockTimer;
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
     private bool isDead;
@@ -61,6 +62,11 @@ public class Enemy : MonoBehaviour
         {
             invulnerabilityTimer -= Time.deltaTime;
         }
+
+        if (knockbackLockTimer > 0f)
+        {
+            knockbackLockTimer -= Time.deltaTime;
+        }
     }
 
     private void FixedUpdate()
@@ -76,6 +82,10 @@ public class Enemy : MonoBehaviour
     private void ChasePlayer()
     {
         if (isDead) return;
+
+        // Đang bị knockback -> không ghi đè velocity, để lực đẩy lùi phát huy tác dụng
+        // trong khoảng knockbackLockTimer thay vì bị AI đuổi theo triệt tiêu ngay lập tức
+        if (knockbackLockTimer > 0f) return;
 
         // Quét theo layer thay vì tag, dùng chung playerLayer với hệ thống Contact Damage bên dưới
         Collider2D hit = Physics2D.OverlapCircle(transform.position, detectionRange, playerLayer);
@@ -121,6 +131,19 @@ public class Enemy : MonoBehaviour
                 spriteRenderer.flipX = direction.x < 0f;
             }
         }
+    }
+
+    /// <summary>
+    /// Đẩy lùi địch theo vận tốc chỉ định trong 1 khoảng thời gian ngắn (duration),
+    /// trong lúc đó ChasePlayer() sẽ tạm ngưng ghi đè velocity để lực đẩy không bị triệt tiêu.
+    /// Gọi hàm này từ script tấn công (ví dụ PlayerController) khi cần knockback.
+    /// </summary>
+    public void ApplyKnockback(Vector2 velocity, float duration)
+    {
+        if (isDead || rb == null) return;
+
+        rb.linearVelocity = velocity;
+        knockbackLockTimer = duration;
     }
 
     /// <summary>

@@ -106,6 +106,12 @@ public class PlayerController : MonoBehaviour
     public float attackCooldown = 0.4f;
     [Tooltip("Layer chứa các object địch (để lọc bớt trước khi kiểm tra tag, có thể để 'Everything' nếu không dùng layer riêng)")]
     public LayerMask enemyLayer;
+    [Tooltip("Lực đẩy lùi (knockback) tác dụng lên địch khi trúng đòn cận chiến")]
+    public float attackKnockbackForce = 6f;
+    [Tooltip("Hệ số hất lên trên khi knockback (0 = chỉ đẩy ngang, giá trị nhỏ giúp knockback trông tự nhiên hơn)")]
+    [Range(0f, 1f)] public float attackKnockbackUpward = 0.25f;
+    [Tooltip("Thời gian (giây) địch bị khoá AI (không tự di chuyển) sau khi bị knockback, để lực đẩy không bị AI triệt tiêu ngay")]
+    public float attackKnockbackDuration = 0.15f;
 
     // Buffer tái sử dụng để tránh cấp phát bộ nhớ (GC) mỗi lần tấn công
     private readonly Collider2D[] attackHitResults = new Collider2D[8];
@@ -520,8 +526,24 @@ public class PlayerController : MonoBehaviour
             if (enemy != null)
             {
                 enemy.TakeDamage(attackDamage);
+                ApplyMeleeKnockback(enemy);
             }
         }
+    }
+
+    /// <summary>
+    /// Đẩy lùi địch theo hướng player đang nhìn khi trúng đòn cận chiến.
+    /// Gọi qua Enemy.ApplyKnockback() để Enemy tự khoá AI tạm thời, tránh bị
+    /// ChasePlayer() (FixedUpdate) ghi đè velocity ngay lập tức làm mất hiệu ứng.
+    /// </summary>
+    private void ApplyMeleeKnockback(Enemy enemy)
+    {
+        if (attackKnockbackForce <= 0f) return;
+
+        Vector2 knockbackDir = facingRight ? Vector2.right : Vector2.left;
+        knockbackDir += Vector2.up * attackKnockbackUpward;
+
+        enemy.ApplyKnockback(knockbackDir.normalized * attackKnockbackForce, attackKnockbackDuration);
     }
 
     /// <summary>
