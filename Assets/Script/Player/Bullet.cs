@@ -17,14 +17,29 @@ public class Bullet : MonoBehaviour
     private int damage;
     private Vector2 direction;
 
+    // Đếm giờ thủ công thay vì dùng Destroy(gameObject, lifeTime), để mỗi lần Init()
+    // được gọi lại (ví dụ đạn bị phản bởi melee attack) sẽ có trọn vẹn lifeTime giây
+    // mới, không bị lệnh Destroy hẹn giờ từ lần Init() trước đó huỷ sớm.
+    private float lifeTimer;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0f; // đạn bay thẳng, không rơi theo trọng lực
     }
 
+    private void Update()
+    {
+        lifeTimer -= Time.deltaTime;
+        if (lifeTimer <= 0f)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     /// <summary>
-    /// Được gọi từ PlayerController ngay sau khi Instantiate.
+    /// Được gọi từ PlayerController ngay sau khi Instantiate, hoặc gọi lại khi đạn
+    /// bị phản (reflect) bởi melee attack để tái khởi tạo hướng/tốc độ/sát thương.
     /// </summary>
     public void Init(Vector2 dir, float speed, int bulletDamage)
     {
@@ -37,7 +52,8 @@ public class Bullet : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
-        Destroy(gameObject, lifeTime);
+        // Reset trọn vẹn lifeTime giây mỗi lần Init() được gọi
+        lifeTimer = lifeTime;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

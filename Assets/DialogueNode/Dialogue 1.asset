@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aee07975a450b445a8cb8f743cb0138, type: 3}
+  m_Name: Dialogue 1
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  speakerName: TriaWalker
+  lines:
+  - Dialogue Test
+  - And it works
+  choices:
+  - choiceText: W Rizz
+    nextNode: {fileID: 11400000, guid: 6e5367e72254200438153d390925178e, type: 2}
+  - choiceText: L Rizz
+    nextNode: {fileID: 11400000, guid: c86bac34a8017b04dbec510e222b2c3f, type: 2}
+  autoContinueNode: {fileID: 0}
+  onEnter:
+    m_PersistentCalls:
+      m_Calls: []
