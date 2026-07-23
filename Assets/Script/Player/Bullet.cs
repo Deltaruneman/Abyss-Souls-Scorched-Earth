@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -12,6 +13,11 @@ public class Bullet : MonoBehaviour
 
     [Tooltip("Layer chứa các object địch mà đạn có thể gây sát thương")]
     public LayerMask enemyLayer;
+
+    // Callback tuỳ chọn: PlayerController gán sau khi Instantiate để biết chính xác
+    // thời điểm và enemy nào bị trúng đạn (dùng cho cộng chiến ý, teleport skill, v.v.)
+    // Không bị serialize trong Inspector, chỉ gán bằng code lúc runtime.
+    [NonSerialized] public Action<Enemy> onHitEnemy;
 
     private Rigidbody2D rb;
     private int damage;
@@ -75,6 +81,7 @@ public class Bullet : MonoBehaviour
         if (enemy != null)
         {
             enemy.TakeDamage(damage);
+            onHitEnemy?.Invoke(enemy);
         }
 
         Destroy(gameObject);

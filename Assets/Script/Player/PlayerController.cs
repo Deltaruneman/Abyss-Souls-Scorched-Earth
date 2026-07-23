@@ -86,25 +86,57 @@ public class PlayerController : MonoBehaviour
     public KeyCode skillKey = KeyCode.I;
 
     [Space(8)]
-    [Header("Skill - Melee (luot + danh knockback manh)")]
+    [Header("Chien Y (combo stack tich luy tu don danh thuong)")]
+    public int maxWillStack = 10;
+    [SerializeField] private int currentWillStack;
+    public int willStackTier1 = 3;  // moc mo khoa skill yeu nhat, duoi moc nay khong dung duoc skill
+    public int willStackTier2 = 5;  // moc thu 2
+    public int willStackTier3 = 10; // moc toi da, skill manh nhat
+    public int CurrentWillStack => currentWillStack;
+
+    [Space(8)]
+    [Header("Skill - Melee Tier 1 (3-4 chien y: khong luot, chi knockback)")]
+    public Vector2 meleeSkillTier1HitboxSize = new Vector2(1.1f, 0.8f);
+    public int meleeSkillTier1Damage = 14;
+    public float meleeSkillTier1KnockbackForce = 26f;
+    [Range(0f, 1f)] public float meleeSkillTier1KnockbackUpward = 0.3f;
+    public float meleeSkillTier1KnockbackDuration = 0.35f;
+
+    [Space(8)]
+    [Header("Skill - Melee Tier 2 & 3 (5+ chien y: co luot + knockback)")]
     public float meleeSkillDashSpeed = 26f;
     public float meleeSkillDashDuration = 0.18f;
     public Vector2 meleeSkillHitboxSize = new Vector2(1.3f, 0.9f);
-    public int meleeSkillDamage = 22;
+    public int meleeSkillTier2Damage = 22; // 5-9 chien y, thap hon tier 3
+    public int meleeSkillTier3Damage = 34; // du 10 chien y, sat thuong cao nhat
     public float meleeSkillKnockbackForce = 20f;
     [Range(0f, 1f)] public float meleeSkillKnockbackUpward = 0.35f;
     public float meleeSkillKnockbackDuration = 0.3f;
     public float meleeSkillCooldown = 3f;
 
     [Space(8)]
-    [Header("Skill - Ranged (ban 1 phat manh, bi giat lui)")]
+    [Header("Skill - Ranged Tier 1 (3-4 chien y: ban 1 phat, damage thap hon)")]
     public GameObject skillArrowPrefab;
     public float skillArrowSpeed = 32f;
     public float skillArrowRadius = 0.15f;
     public float skillArrowMaxDistance = 18f;
-    public int skillArrowDamage = 35;
+    public int skillArrowDamageTier1 = 18;
     public LayerMask skillArrowObstacleLayer;
     public float rangedSkillCooldown = 3f;
+
+    [Space(8)]
+    [Header("Skill - Ranged Tier 2 (5-9 chien y: ban + teleport toi enemy neu trung)")]
+    public int skillArrowDamageTier2 = 26;
+    public float skillTeleportOffset = 0.6f; // dung cach enemy 1 doan sau khi teleport, tranh lot vao trong enemy
+
+    [Space(8)]
+    [Header("Skill - Ranged Tier 3 (10 chien y: ban beam ton tai 1s, damage lon)")]
+    public GameObject skillBeamVfxPrefab; // optional, hieu ung hinh anh cho beam
+    public float skillBeamDuration = 1f;
+    public float skillBeamLength = 12f;
+    public float skillBeamWidth = 0.6f;
+    public float skillBeamTickInterval = 0.1f;
+    public int skillBeamDamagePerTick = 12;
 
     [Space(8)]
     public float skillRecoilForce = 16f;
@@ -160,10 +192,19 @@ public class PlayerController : MonoBehaviour
     private bool isMeleeSkillDashing;
     private float meleeSkillDashTimer;
     private Vector2 meleeSkillDashDir;
+    private int pendingMeleeSkillTier;
     private float meleeSkillCooldownTimer;
     private float rangedSkillCooldownTimer;
     private float skillRecoilLockTimer;
     private readonly Collider2D[] skillHitResults = new Collider2D[8];
+
+    // -- beam (ranged skill tier 3) --
+    private bool isBeamActive;
+    private float beamTimer;
+    private float beamTickTimer;
+    private Vector2 beamOrigin;
+    private Vector2 beamDirection;
+    private readonly Collider2D[] beamHitResults = new Collider2D[16];
 
     // ===================== UNITY LIFECYCLE =====================
     private void Awake()
@@ -221,6 +262,20 @@ public class PlayerController : MonoBehaviour
         {
             meleeSkillDashTimer -= Time.deltaTime;
             if (meleeSkillDashTimer <= 0f) FinishMeleeSkillDash();
+        }
+
+        if (isBeamActive)
+        {
+            beamTimer -= Time.deltaTime;
+            beamTickTimer -= Time.deltaTime;
+
+            if (beamTickTimer <= 0f)
+            {
+                DealBeamDamageTick();
+                beamTickTimer = skillBeamTickInterval;
+            }
+
+            if (beamTimer <= 0f) FinishSkillBeam();
         }
 
         if (Input.GetKeyDown(dashKey) && dashCooldownTimer <= 0f && !isDashing && !isMeleeSkillDashing && (allowAirDash || isGrounded))
@@ -472,10 +527,18 @@ public class PlayerController : MonoBehaviour
             {
                 enemy.TakeDamage(attackDamage);
                 ApplyMeleeKnockback(enemy);
+                AddWillStack();
             }
         }
 
         ReflectBullets(); // cung luc, phan lai dan trong hitbox
+    }
+
+    // goi ham nay tu Bullet.cs khi 1 vien dan thuong (khong phai dan skill, khong phai dan phan lai)
+    // do player ban trung enemy, de dong bo cong don chien y cho vu khi Ranged
+    public void NotifyRangedNormalHit()
+    {
+        AddWillStack();
     }
 
     private void ApplyMeleeKnockback(Enemy enemy)
@@ -536,6 +599,7 @@ public class PlayerController : MonoBehaviour
         Bullet bullet = bulletObj.GetComponent<Bullet>();
         if (bullet != null)
         {
+            bullet.onHitEnemy = _ => NotifyRangedNormalHit();
             bullet.Init(FacingDir, bulletSpeed, bulletDamage);
             return;
         }
@@ -545,28 +609,69 @@ public class PlayerController : MonoBehaviour
     }
 
     // ===================== SKILL (phim I) =====================
+
+    // cong don chien y, toi da maxWillStack (goi khi don danh THUONG trung enemy)
+    private void AddWillStack()
+    {
+        currentWillStack = Mathf.Min(currentWillStack + 1, maxWillStack);
+    }
+
+    // tieu het chien y sau khi dung skill
+    private void ConsumeWillStack()
+    {
+        currentWillStack = 0;
+    }
+
+    // tra ve moc chien y hien tai: 0 = chua du dieu kien, hoac willStackTier1/2/3
+    private int GetSkillTier()
+    {
+        if (currentWillStack >= willStackTier3) return willStackTier3;
+        if (currentWillStack >= willStackTier2) return willStackTier2;
+        if (currentWillStack >= willStackTier1) return willStackTier1;
+        return 0;
+    }
+
     private void TryUseSkill()
     {
+        int tier = GetSkillTier();
+        if (tier == 0)
+        {
+            Debug.Log($"Chua du chien y de dung skill ({currentWillStack}/{willStackTier1} toi thieu).");
+            return;
+        }
+
         if (currentWeapon == WeaponType.Melee)
         {
             if (meleeSkillCooldownTimer > 0f) return;
-            StartMeleeSkillDash();
+            StartMeleeSkill(tier);
         }
         else
         {
             if (rangedSkillCooldownTimer > 0f) return;
-            UseRangedSkill();
+            UseRangedSkill(tier);
         }
+
+        ConsumeWillStack();
     }
 
-    // -- melee skill: luot nhanh roi tung 1 don knockback rat manh --
-    private void StartMeleeSkillDash()
+    // -- melee skill --
+    // tier1 (3-4 chien y): khong luot, chi 1 don knockback tai cho
+    // tier2/tier3 (5+ / 10 chien y): luot nhanh roi tung 1 don knockback, damage khac nhau theo tier
+    private void StartMeleeSkill(int tier)
     {
+        pendingMeleeSkillTier = tier;
+        meleeSkillCooldownTimer = meleeSkillCooldown;
+
+        if (tier == willStackTier1)
+        {
+            PerformMeleeSkillHitTier1();
+            return;
+        }
+
         skillActive = true;
         isMeleeSkillDashing = true;
         meleeSkillDashTimer = meleeSkillDashDuration;
         meleeSkillDashDir = FacingDir;
-        meleeSkillCooldownTimer = meleeSkillCooldown;
     }
 
     private void HandleMeleeSkillDashMovement()
@@ -579,13 +684,38 @@ public class PlayerController : MonoBehaviour
         isMeleeSkillDashing = false;
         meleeSkillDashTimer = 0f;
 
-        PerformMeleeSkillHit();
+        PerformMeleeSkillHitTier2Or3(pendingMeleeSkillTier);
         skillActive = false;
     }
 
-    private void PerformMeleeSkillHit()
+    // tier 1: khong luot, hitbox va knockback rieng, khong di chuyen player
+    private void PerformMeleeSkillHitTier1()
     {
         if (attackPoint == null) return;
+
+        int count = Physics2D.OverlapBoxNonAlloc(attackPoint.position, meleeSkillTier1HitboxSize, 0f, skillHitResults, enemyLayer);
+        for (int i = 0; i < count; i++)
+        {
+            Collider2D hitCol = skillHitResults[i];
+            if (hitCol == null) continue;
+
+            Enemy enemy = hitCol.GetComponentInParent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(meleeSkillTier1Damage);
+
+                Vector2 knockbackDir = FacingDir + Vector2.up * meleeSkillTier1KnockbackUpward;
+                enemy.ApplyKnockback(knockbackDir.normalized * meleeSkillTier1KnockbackForce, meleeSkillTier1KnockbackDuration);
+            }
+        }
+    }
+
+    // tier 2 & 3: dung sau khi luot xong, damage phu thuoc tier, knockback chung
+    private void PerformMeleeSkillHitTier2Or3(int tier)
+    {
+        if (attackPoint == null) return;
+
+        int damage = tier == willStackTier3 ? meleeSkillTier3Damage : meleeSkillTier2Damage;
 
         int count = Physics2D.OverlapBoxNonAlloc(attackPoint.position, meleeSkillHitboxSize, 0f, skillHitResults, enemyLayer);
         for (int i = 0; i < count; i++)
@@ -596,7 +726,7 @@ public class PlayerController : MonoBehaviour
             Enemy enemy = hitCol.GetComponentInParent<Enemy>();
             if (enemy != null)
             {
-                enemy.TakeDamage(meleeSkillDamage);
+                enemy.TakeDamage(damage);
 
                 Vector2 knockbackDir = FacingDir + Vector2.up * meleeSkillKnockbackUpward;
                 enemy.ApplyKnockback(knockbackDir.normalized * meleeSkillKnockbackForce, meleeSkillKnockbackDuration);
@@ -604,35 +734,108 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // -- ranged skill: ban 1 phat sat thuong lon, giat lui player theo huong nguoc lai --
-    private void UseRangedSkill()
+    // -- ranged skill --
+    // tier1 (3-4 chien y): ban 1 phat nhu binh thuong nhung damage thap hon
+    // tier2 (5-9 chien y): ban giong tier1 nhung teleport player toi enemy neu trung
+    // tier3 (10 chien y): ban 1 beam ton tai 1s, damage lon theo tick
+    private void UseRangedSkill(int tier)
     {
-        if (skillArrowPrefab == null)
-        {
-            Debug.LogWarning("PlayerController: chua gan skillArrowPrefab.");
-            return;
-        }
-
         rangedSkillCooldownTimer = rangedSkillCooldown;
 
         Transform spawnPoint = firePoint != null ? firePoint : attackPoint;
         if (spawnPoint == null) return;
 
         Vector2 direction = FacingDir;
+
+        if (tier == willStackTier3)
+        {
+            FireSkillBeam(spawnPoint, direction);
+            return;
+        }
+
+        if (skillArrowPrefab == null)
+        {
+            Debug.LogWarning("PlayerController: chua gan skillArrowPrefab.");
+            return;
+        }
+
         ApplySkillRecoil(direction);
+
+        int damage = tier == willStackTier2 ? skillArrowDamageTier2 : skillArrowDamageTier1;
 
         GameObject skillBulletObj = Instantiate(skillArrowPrefab, spawnPoint.position, Quaternion.identity);
         Bullet bullet = skillBulletObj.GetComponent<Bullet>();
         if (bullet != null)
         {
             bullet.enemyLayer = enemyLayer;
-            bullet.Init(direction, skillArrowSpeed, skillArrowDamage);
+
+            // tier 2: khi dan thuc su cham enemy (callback tu Bullet), teleport player toi ngay do
+            if (tier == willStackTier2)
+            {
+                bullet.onHitEnemy = enemy => TeleportToEnemy(enemy);
+            }
+
+            bullet.Init(direction, skillArrowSpeed, damage);
         }
         else
         {
             Rigidbody2D bulletRb = skillBulletObj.GetComponent<Rigidbody2D>();
             if (bulletRb != null) bulletRb.linearVelocity = direction * skillArrowSpeed;
         }
+    }
+
+    // teleport player toi vi tri enemy vua bi trung boi skill arrow tier 2, lui lai 1 khoang
+    // (skillTeleportOffset) theo huong ban de khong bi lot vao trong hitbox enemy
+    private void TeleportToEnemy(Enemy enemy)
+    {
+        if (enemy == null) return;
+
+        Vector2 dirToEnemy = ((Vector2)enemy.transform.position - rb.position);
+        Vector2 dir = dirToEnemy.sqrMagnitude > 0.0001f ? dirToEnemy.normalized : FacingDir;
+
+        rb.linearVelocity = Vector2.zero;
+        rb.position = (Vector2)enemy.transform.position - dir * skillTeleportOffset;
+    }
+
+    // -- beam (ranged tier 3): mot vung sat thuong keo dai theo huong nhin, ton tai skillBeamDuration giay --
+    private void FireSkillBeam(Transform spawnPoint, Vector2 direction)
+    {
+        isBeamActive = true;
+        skillActive = true;
+        beamTimer = skillBeamDuration;
+        beamTickTimer = 0f; // tick ngay frame dau tien
+        beamOrigin = spawnPoint.position;
+        beamDirection = direction;
+
+        if (skillBeamVfxPrefab != null)
+        {
+            GameObject vfx = Instantiate(skillBeamVfxPrefab, beamOrigin, Quaternion.identity);
+            Destroy(vfx, skillBeamDuration);
+        }
+    }
+
+    private void DealBeamDamageTick()
+    {
+        Vector2 center = beamOrigin + beamDirection * (skillBeamLength * 0.5f);
+        Vector2 size = new Vector2(skillBeamLength, skillBeamWidth);
+        float angle = Vector2.SignedAngle(Vector2.right, beamDirection);
+
+        int count = Physics2D.OverlapBoxNonAlloc(center, size, angle, beamHitResults, enemyLayer);
+        for (int i = 0; i < count; i++)
+        {
+            Collider2D hitCol = beamHitResults[i];
+            if (hitCol == null) continue;
+
+            Enemy enemy = hitCol.GetComponentInParent<Enemy>();
+            if (enemy != null) enemy.TakeDamage(skillBeamDamagePerTick);
+        }
+    }
+
+    private void FinishSkillBeam()
+    {
+        isBeamActive = false;
+        beamTimer = 0f;
+        skillActive = false;
     }
 
     // bat player nguoc huong ban, reset van toc truoc de luc giat luon nhat quan
@@ -684,6 +887,9 @@ public class PlayerController : MonoBehaviour
 
             Gizmos.color = Color.magenta;
             Gizmos.DrawWireCube(attackPoint.position, meleeSkillHitboxSize);
+
+            Gizmos.color = new Color(1f, 0.5f, 0f); // cam: hitbox skill tier 1 (khong luot)
+            Gizmos.DrawWireCube(attackPoint.position, meleeSkillTier1HitboxSize);
         }
     }
 }

@@ -237,10 +237,21 @@ MonoBehaviour:
   bulletDamage: 5
   firePoint: {fileID: 0}
   skillKey: 105
+  maxWillStack: 10
+  currentWillStack: 0
+  willStackTier1: 3
+  willStackTier2: 5
+  willStackTier3: 10
+  meleeSkillTier1HitboxSize: {x: 1.1, y: 0.8}
+  meleeSkillTier1Damage: 14
+  meleeSkillTier1KnockbackForce: 26
+  meleeSkillTier1KnockbackUpward: 0.3
+  meleeSkillTier1KnockbackDuration: 0.35
   meleeSkillDashSpeed: 26
   meleeSkillDashDuration: 0.18
   meleeSkillHitboxSize: {x: 1.3, y: 0.9}
-  meleeSkillDamage: 22
+  meleeSkillTier2Damage: 22
+  meleeSkillTier3Damage: 34
   meleeSkillKnockbackForce: 20
   meleeSkillKnockbackUpward: 0.35
   meleeSkillKnockbackDuration: 0.3
@@ -249,11 +260,22 @@ MonoBehaviour:
   skillArrowSpeed: 16
   skillArrowRadius: 0.15
   skillArrowMaxDistance: 18
-  skillArrowDamage: 25
+  skillArrowDamageTier1: 18
   skillArrowObstacleLayer:
     serializedVersion: 2
     m_Bits: 0
   rangedSkillCooldown: 3
+  skillArrowDamageTier2: 26
+  skillTeleportOffset: 0.6
+  skillBeamVfxPrefab: {fileID: 3432636445863554250, guid: 47b73e7a21bb3b345b5e30087df74fcd, type: 3}
+  skillBeamDuration: 1
+  skillBeamLength: 12
+  skillBeamWidth: 0.6
+  skillBeamTickInterval: 0.1
+  skillBeamDamagePerTick: 12
+  skillRecoilForce: 16
+  skillRecoilUpward: 0.25
+  skillRecoilLockDuration: 0.15
   maxHealth: 100
   currentHealth: 0
   invulnerabilityTime: 0.5
