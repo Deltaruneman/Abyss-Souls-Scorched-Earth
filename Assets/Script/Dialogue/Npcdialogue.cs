@@ -6,7 +6,7 @@ using UnityEngine;
 /// bắt đầu từ startNode qua DialogueManager.
 /// </summary>
 [RequireComponent(typeof(Collider2D))]
-public class NPCDialogue : MonoBehaviour
+public class NPCDialogue : MonoBehaviour, IDialogueSource
 {
     [Header("Dialogue")]
     [Tooltip("Node bắt đầu hội thoại khi Player tương tác với NPC này")]

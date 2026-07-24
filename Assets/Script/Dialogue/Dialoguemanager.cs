@@ -31,7 +31,7 @@ public class DialogueManager : MonoBehaviour
 
     private DialogueNode currentNode;
     private int currentLineIndex;
-    private NPCDialogue currentNPC;
+    private IDialogueSource currentSource;
     private readonly List<GameObject> spawnedChoiceButtons = new List<GameObject>();
 
     // Frame lúc StartDialogue() được gọi -> dùng để bỏ qua 1 lần đọc phím continueKey
@@ -45,7 +45,13 @@ public class DialogueManager : MonoBehaviour
     public int DialogueEndFrame { get; private set; } = -1;
 
     public bool IsDialogueActive { get; private set; }
-    public NPCDialogue CurrentNPC => currentNPC;
+
+    /// <summary>Nguồn (NPC, vùng trigger, ...) đang giữ hội thoại hiện tại, dạng interface chung.</summary>
+    public IDialogueSource CurrentSource => currentSource;
+
+    /// <summary>Tiện ích: trả về NPC đang hội thoại nếu nguồn hiện tại là 1 NPCDialogue, ngược lại null.
+    /// Giữ lại để tương thích với code cũ dùng CurrentNPC.</summary>
+    public NPCDialogue CurrentNPC => currentSource as NPCDialogue;
 
     private void Awake()
     {
@@ -75,12 +81,12 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    /// <summary>Gọi từ NPCDialogue khi Player tương tác để bắt đầu 1 cuộc hội thoại.</summary>
-    public void StartDialogue(DialogueNode startNode, NPCDialogue npc)
+    /// <summary>Gọi từ bất kỳ IDialogueSource nào (NPC, vùng trigger, ...) để bắt đầu 1 cuộc hội thoại.</summary>
+    public void StartDialogue(DialogueNode startNode, IDialogueSource source)
     {
         if (startNode == null || IsDialogueActive) return;
 
-        currentNPC = npc;
+        currentSource = source;
         IsDialogueActive = true;
         dialogueStartFrame = Time.frameCount;
 
@@ -213,12 +219,13 @@ public class DialogueManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Buộc kết thúc hội thoại từ bên ngoài (ví dụ NPCDialogue gọi khi Player rời khỏi vùng tương tác).
-    /// Chỉ có tác dụng nếu npc truyền vào đúng là NPC đang hội thoại, tránh 1 NPC khác lỡ tay tắt hội thoại hộ.
+    /// Buộc kết thúc hội thoại từ bên ngoài (ví dụ NPCDialogue gọi khi Player rời khỏi vùng tương tác,
+    /// hoặc AreaDialogueTrigger gọi khi Player rời khỏi khu vực).
+    /// Chỉ có tác dụng nếu source truyền vào đúng là source đang hội thoại, tránh 1 source khác lỡ tay tắt hội thoại hộ.
     /// </summary>
-    public void ForceEndDialogue(NPCDialogue npc)
+    public void ForceEndDialogue(IDialogueSource source)
     {
-        if (currentNPC != npc) return;
+        if (currentSource != source) return;
         EndDialogue();
     }
 
@@ -239,9 +246,9 @@ public class DialogueManager : MonoBehaviour
             Time.timeScale = 1f;
         }
 
-        // Báo cho NPC biết hội thoại đã kết thúc (để NPC.SetTalking(false), tiếp tục patrol),
-        // gọi sau khi đã dừng game/UI để đảm bảo currentNPC vẫn còn hợp lệ lúc gọi
-        currentNPC?.OnDialogueEnded();
-        currentNPC = null;
+        // Báo cho source biết hội thoại đã kết thúc (để NPC.SetTalking(false), reset trigger, v.v.),
+        // gọi sau khi đã dừng game/UI để đảm bảo currentSource vẫn còn hợp lệ lúc gọi
+        currentSource?.OnDialogueEnded();
+        currentSource = null;
     }
 }
