@@ -76,6 +76,20 @@ public class SceneLoader : MonoBehaviour
 
         float elapsed = 0f;
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
+
+        // op sẽ là null nếu scene chưa được thêm vào Build Profiles/Scenes In Build,
+        // hoặc gõ sai tên scene. Bắt lỗi ở đây thay vì để crash NullReferenceException.
+        if (op == null)
+        {
+            Debug.LogError($"Không thể load scene '{sceneName}'. Kiểm tra lại: " +
+                            "(1) Scene đã được add vào File > Build Profiles > Scene List chưa, " +
+                            "(2) Tên scene có đúng chính tả không.");
+
+            if (loadingScreen != null) loadingScreen.SetActive(false);
+            isLoading = false;
+            yield break;
+        }
+
         op.allowSceneActivation = false;
 
         // op.progress chạy từ 0 -> 0.9 trong lúc load, giữ ở 0.9 chờ allowSceneActivation

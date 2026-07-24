@@ -8,8 +8,9 @@ using UnityEngine;
 public class MainMenuController : MonoBehaviour
 {
     [Header("Scenes")]
-    [Tooltip("Tên scene màn chơi chính, phải trùng tên trong Build Settings > Scenes In Build")]
-    public string gameplaySceneName = "Gameplay";
+    [Tooltip("Kéo file scene màn chơi chính từ Project window vào đây (nhớ scene này phải có " +
+             "trong File > Build Settings > Scenes In Build thì mới load được lúc chạy game thật)")]
+    public SceneField gameplayScene;
 
     [Header("Panels")]
     [Tooltip("Panel chính của menu (chứa nút Start/Settings/Quit), sẽ ẩn đi khi mở Settings")]
@@ -26,9 +27,15 @@ public class MainMenuController : MonoBehaviour
     /// <summary>Gắn vào nút "Start" / "Chơi mới" -> chuyển sang scene gameplay.</summary>
     public void OnClickStart()
     {
+        if (gameplayScene == null || string.IsNullOrEmpty(gameplayScene.SceneName))
+        {
+            Debug.LogWarning("Chưa kéo scene gameplay vào field 'gameplayScene' của MainMenuController.");
+            return;
+        }
+
         if (SceneLoader.Instance != null)
         {
-            SceneLoader.Instance.LoadScene(gameplaySceneName);
+            SceneLoader.Instance.LoadScene(gameplayScene.SceneName);
         }
         else
         {
