@@ -28,6 +28,10 @@ public class GameManager : MonoBehaviour
     [Tooltip("CameraFollow trong scene, dùng để tự động gán target là Player mỗi khi spawn/respawn. Để trống nếu không cần.")]
     public CameraFollow cameraFollow;
 
+    [Header("Inventory UI")]
+    [Tooltip("InventoryUI trong scene, dùng để tự động gán Inventory của Player mới mỗi khi spawn/respawn. Để trống nếu không dùng UI túi đồ.")]
+    public InventoryUI inventoryUI;
+
     [Header("Death & Restart UI")]
     [Tooltip("Panel UI hiện ra khi Player chết (chứa nút Restart), để trống nếu không cần UI")]
     public GameObject restartMenu;
@@ -129,6 +133,21 @@ public class GameManager : MonoBehaviour
         if (cameraFollow != null)
         {
             cameraFollow.SetTarget(currentPlayerInstance.transform);
+        }
+
+        // Tương tự, InventoryUI đang giữ tham chiếu Inventory của Player cũ (đã bị Destroy)
+        // nên phải gán lại Inventory của Player mới, nếu không UI túi đồ sẽ không cập nhật.
+        if (inventoryUI != null)
+        {
+            Inventory playerInventory = currentPlayerInstance.GetComponent<Inventory>();
+            if (playerInventory != null)
+            {
+                inventoryUI.SetInventory(playerInventory);
+            }
+            else
+            {
+                Debug.LogWarning("GameManager: playerPrefab không có component Inventory.");
+            }
         }
 
         if (restartMenu != null)

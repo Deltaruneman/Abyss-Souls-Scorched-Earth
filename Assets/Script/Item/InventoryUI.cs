@@ -17,9 +17,50 @@ public class InventoryUI : MonoBehaviour
 
     private void Awake()
     {
+        ValidateReferences();
+        SubscribeToInventory();
+    }
+
+    // kiem tra cac reference co dang tro vao Prefab Asset (persistent) thay vi
+    // object thuc su trong Scene hay khong -> log ro rang de biet field nao sai
+    private void ValidateReferences()
+    {
+        LogIfPersistent(panelRoot != null ? panelRoot.transform : null, nameof(panelRoot));
+        LogIfPersistent(slotContainer, nameof(slotContainer));
+        LogIfPersistent(slotPrefab != null ? slotPrefab.transform : null, nameof(slotPrefab) + " (day la Prefab Asset nen BINH THUONG se bao persistent, khong can sua)");
+    }
+
+    private void LogIfPersistent(Transform t, string fieldName)
+    {
+        if (t == null) return;
+
+        bool isPersistent = !t.gameObject.scene.IsValid();
+        Debug.Log($"[InventoryUI] Field '{fieldName}' -> object '{t.name}', scene hop le: {t.gameObject.scene.IsValid()}, persistent (asset): {isPersistent}");
+    }
+
+    // goi ham nay tu GameManager (hoac noi spawn Player) moi khi Player duoc
+    // Instantiate lai tu prefab, de InventoryUI luon tro dung Inventory cua Player hien tai
+    public void SetInventory(Inventory newInventory)
+    {
+        UnsubscribeFromInventory();
+        inventory = newInventory;
+        SubscribeToInventory();
+        RefreshUI();
+    }
+
+    private void SubscribeToInventory()
+    {
         if (inventory != null)
         {
             inventory.onInventoryChanged.AddListener(RefreshUI);
+        }
+    }
+
+    private void UnsubscribeFromInventory()
+    {
+        if (inventory != null)
+        {
+            inventory.onInventoryChanged.RemoveListener(RefreshUI);
         }
     }
 
@@ -80,9 +121,6 @@ public class InventoryUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (inventory != null)
-        {
-            inventory.onInventoryChanged.RemoveListener(RefreshUI);
-        }
+        UnsubscribeFromInventory();
     }
 }
