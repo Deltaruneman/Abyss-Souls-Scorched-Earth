@@ -82,11 +82,10 @@ public class PlayerController : MonoBehaviour
     public Transform firePoint; // rong thi dung attackPoint
 
     // ===================== SKILL (phim I) =====================
-    [Header("Skill - chung")]
+    [Header("Skill")]
     public KeyCode skillKey = KeyCode.I;
 
     [Space(8)]
-    [Header("Chien Y (combo stack tich luy tu don danh thuong)")]
     public int maxWillStack = 10; // van cho phep cong don toi da 10, du skill chi co 2 moc (3 va 5)
     [SerializeField] private int currentWillStack;
     public int willStackTier1 = 3;  // moc mo khoa skill yeu nhat, duoi moc nay khong dung duoc skill
@@ -94,7 +93,6 @@ public class PlayerController : MonoBehaviour
     public int CurrentWillStack => currentWillStack;
 
     [Space(8)]
-    [Header("Skill - Melee Tier 1 (3-4 chien y: khong luot, chi knockback)")]
     public Vector2 meleeSkillTier1HitboxSize = new Vector2(1.1f, 0.8f);
     public int meleeSkillTier1Damage = 14;
     public float meleeSkillTier1KnockbackForce = 26f;
@@ -102,7 +100,6 @@ public class PlayerController : MonoBehaviour
     public float meleeSkillTier1KnockbackDuration = 0.35f;
 
     [Space(8)]
-    [Header("Skill - Melee Tier 2 (5+ chien y: co luot + knockback, sat thuong cao nhat)")]
     public float meleeSkillDashSpeed = 26f;
     public float meleeSkillDashDuration = 0.18f;
     public Vector2 meleeSkillHitboxSize = new Vector2(1.3f, 0.9f);
@@ -113,7 +110,6 @@ public class PlayerController : MonoBehaviour
     public float meleeSkillCooldown = 3f;
 
     [Space(8)]
-    [Header("Skill - Ranged Tier 1 (3-4 chien y: ban 1 phat, damage thap hon)")]
     public GameObject skillArrowPrefab;
     public float skillArrowSpeed = 32f;
     public float skillArrowRadius = 0.15f;
@@ -123,7 +119,6 @@ public class PlayerController : MonoBehaviour
     public float rangedSkillCooldown = 3f;
 
     [Space(8)]
-    [Header("Skill - Ranged Tier 2 (5+ chien y: ban beam ton tai 1s, damage lon, truoc day la cua moc 10)")]
     public GameObject skillBeamVfxPrefab; // optional, hieu ung hinh anh cho beam
     public float skillBeamDuration = 1f;
     public float skillBeamLength = 12f;
@@ -136,11 +131,19 @@ public class PlayerController : MonoBehaviour
     [Range(0f, 1f)] public float skillRecoilUpward = 0.25f;
     public float skillRecoilLockDuration = 0.15f;
 
+    // ===================== ITEM / INVENTORY =====================
+    [Header("Nhat item")]
+    public KeyCode pickupKey = KeyCode.F;
+    public float pickupRadius = 1f;
+    public LayerMask itemLayer;
+    public Transform pickupCheckPoint; // rong thi dung transform cua player
+
     // ===================== HEALTH / EVENTS =====================
     [Header("Health")]
     public int maxHealth = 100;
     [SerializeField] private int currentHealth;
     public float invulnerabilityTime = 0.5f;
+    public int CurrentHealth => currentHealth;
 
     [Space(8)]
     public UnityEvent onDamaged;
@@ -836,6 +839,45 @@ public class PlayerController : MonoBehaviour
 
         onDeath?.Invoke();
         // TODO: animation chet, disable input, load lai scene, man hinh game over...
+    }
+
+    // hoi mau, dung cho item loai Use (vd: thuoc hoi mau)
+    public void Heal(int amount)
+    {
+        if (isDead || amount <= 0) return;
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+    }
+
+    // ===================== ITEM STAT BONUS (Equip) =====================
+    // cong vinh vien mot chi so cua player, goi boi Inventory khi nhat item loai Equip
+    public void ApplyStatBonus(StatType statType, float value)
+    {
+        switch (statType)
+        {
+            case StatType.MaxHealth:
+                int healthAdd = Mathf.RoundToInt(value);
+                maxHealth += healthAdd;
+                currentHealth += healthAdd; // cong luon HP hien tai theo phan tang them
+                break;
+            case StatType.MoveSpeed:
+                moveSpeed += value;
+                break;
+            case StatType.JumpForce:
+                jumpForce += value;
+                break;
+            case StatType.AttackDamage:
+                attackDamage += Mathf.RoundToInt(value);
+                break;
+            case StatType.BulletDamage:
+                bulletDamage += Mathf.RoundToInt(value);
+                break;
+            case StatType.DashDamage:
+                dashDamage += Mathf.RoundToInt(value);
+                break;
+            case StatType.MaxJumpCount:
+                maxJumpCount += Mathf.RoundToInt(value);
+                break;
+        }
     }
 
     // ===================== GIZMOS =====================

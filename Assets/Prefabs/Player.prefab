@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8505582398316614975}
   - component: {fileID: 8824205488210510573}
   - component: {fileID: 3771427763159233993}
+  - component: {fileID: 7032776466353708009}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -241,7 +242,6 @@ MonoBehaviour:
   currentWillStack: 0
   willStackTier1: 3
   willStackTier2: 5
-  willStackTier3: 10
   meleeSkillTier1HitboxSize: {x: 1.1, y: 0.8}
   meleeSkillTier1Damage: 14
   meleeSkillTier1KnockbackForce: 26
@@ -251,7 +251,6 @@ MonoBehaviour:
   meleeSkillDashDuration: 0.18
   meleeSkillHitboxSize: {x: 1.3, y: 0.9}
   meleeSkillTier2Damage: 22
-  meleeSkillTier3Damage: 34
   meleeSkillKnockbackForce: 20
   meleeSkillKnockbackUpward: 0.35
   meleeSkillKnockbackDuration: 0.3
@@ -265,8 +264,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   rangedSkillCooldown: 3
-  skillArrowDamageTier2: 26
-  skillTeleportOffset: 0.6
   skillBeamVfxPrefab: {fileID: 3432636445863554250, guid: 47b73e7a21bb3b345b5e30087df74fcd, type: 3}
   skillBeamDuration: 1
   skillBeamLength: 12
@@ -276,6 +273,12 @@ MonoBehaviour:
   skillRecoilForce: 16
   skillRecoilUpward: 0.25
   skillRecoilLockDuration: 0.15
+  pickupKey: 102
+  pickupRadius: 1
+  itemLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  pickupCheckPoint: {fileID: 2198745155419780037}
   maxHealth: 100
   currentHealth: 0
   invulnerabilityTime: 0.5
@@ -287,6 +290,34 @@ MonoBehaviour:
       m_Calls: []
   isGrounded: 0
   jumpsRemaining: 0
+--- !u!114 &7032776466353708009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699341245358250386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d1d748941df0647b0dc282758846d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory
+  pickupKey: 102
+  pickupRadius: 1
+  itemLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  pickupCheckPoint: {fileID: 2198745155419780037}
+  items: []
+  onInventoryChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  onItemPickedUp:
+    m_PersistentCalls:
+      m_Calls: []
+  onItemUsed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4757890239806232881
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c254ca18d76b634da30181ad6b25563, type: 3}
+  m_Name: NewItem
+  m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  itemId: 01
+  itemName: Shadow Crystal
+  description: Manh vo tu ke den tu Abyss
+  icon: {fileID: 0}
+  itemType: 0
+  maxStack: 1
+  equipStatBonuses:
+  - statType: 3
+    value: 20
+  - statType: 0
+    value: -10
+  useHealAmount: 0
