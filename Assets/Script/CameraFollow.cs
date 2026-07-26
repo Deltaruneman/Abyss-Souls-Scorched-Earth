@@ -65,7 +65,6 @@ public class CameraFollow : MonoBehaviour
             }
         }
 
-        Debug.LogError("CameraFollow: không có target được gán và không tìm thấy object nào thuộc playerLayer trong scene.", this);
     }
 
     /// <summary>
