@@ -87,21 +87,35 @@ public class Inventory : MonoBehaviour
 
     // ===================== SU DUNG ITEM (Use) =====================
     // dung item theo data, tru 1 so luong, xoa khoi tui neu ve 0
-    public void UseItem(ItemData data)
+public void UseItem(ItemData data)
+{
+    Debug.Log($"[Inventory] UseItem duoc goi voi data = {(data != null ? data.itemName : "NULL")}");
+
+    if (data == null || data.itemType != ItemType.Use)
     {
-        if (data == null || data.itemType != ItemType.Use) return;
-
-        InventoryItem existing = items.Find(it => it.data == data);
-        if (existing == null || existing.quantity <= 0) return;
-
-        ApplyUseEffect(data);
-
-        existing.quantity -= 1;
-        if (existing.quantity <= 0) items.Remove(existing);
-
-        onItemUsed?.Invoke(data);
-        onInventoryChanged?.Invoke();
+        Debug.LogWarning($"[Inventory] Return som: data null? {data == null}, itemType = {(data != null ? data.itemType.ToString() : "N/A")}");
+        return;
     }
+
+    InventoryItem existing = items.Find(it => it.data == data);
+    if (existing == null || existing.quantity <= 0)
+    {
+        Debug.LogWarning($"[Inventory] Khong tim thay item trong list!");
+        return;
+    }
+
+    Debug.Log($"[Inventory] Truoc khi tru: {existing.quantity}");
+
+    ApplyUseEffect(data);
+
+    existing.quantity -= 1;
+    Debug.Log($"[Inventory] Sau khi tru: {existing.quantity}");
+
+    if (existing.quantity <= 0) items.Remove(existing);
+
+    onItemUsed?.Invoke(data);
+    onInventoryChanged?.Invoke();
+}
 
     // dung item theo vi tri trong list (tien cho UI inventory)
     public void UseItem(int index)

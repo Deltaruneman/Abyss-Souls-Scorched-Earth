@@ -86,6 +86,7 @@ public class InventoryUI : MonoBehaviour
     // ve lai toan bo tui do theo du lieu hien tai, tai su dung slot cu neu co
     public void RefreshUI()
     {
+           Debug.Log($"[RefreshUI] Called, items.Count = {inventory?.items.Count}");
         if (slotContainer == null || slotPrefab == null || inventory == null) return;
 
         int usedCount = 0;

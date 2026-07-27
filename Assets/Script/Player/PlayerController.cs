@@ -81,6 +81,16 @@ public class PlayerController : MonoBehaviour
     public int bulletDamage = 10;
     public Transform firePoint; // rong thi dung attackPoint
 
+    [Space(8)]
+    [Header("Ranged Ammo")]
+    public int maxAmmo = 4;
+    public float ammoRegenInterval = 1f; // moi 1 giay tich them 1 vien
+    [SerializeField] private int currentAmmo;
+    private float ammoRegenTimer;
+    public int CurrentAmmo => currentAmmo;
+    public int MaxAmmo => maxAmmo;
+    public UnityEvent<int> onAmmoChanged; // bao cho UI moi khi so dan thay doi
+
     // ===================== SKILL (phim I) =====================
     [Header("Skill")]
     public KeyCode skillKey = KeyCode.I;
@@ -215,6 +225,9 @@ public class PlayerController : MonoBehaviour
     {
         jumpsRemaining = maxJumpCount;
         currentHealth = maxHealth;
+
+        currentAmmo = maxAmmo; // bat dau voi day dan
+        onAmmoChanged?.Invoke(currentAmmo);
     }
 
     private void Update()
@@ -243,12 +256,14 @@ public class PlayerController : MonoBehaviour
         Tick(ref rangedSkillCooldownTimer);
         Tick(ref skillRecoilLockTimer);
 
+        HandleAmmoRegen();
+
         if (Input.GetKeyDown(switchWeaponKey)) SwitchWeapon();
 
         if (Input.GetKeyDown(attackKey) && attackCooldownTimer <= 0f)
         {
-            PerformAttack();
-            attackCooldownTimer = attackCooldown;
+            // chi tinh cooldown neu don danh thuc su duoc thuc hien (vd: Ranged het dan thi khong ton cooldown)
+            if (PerformAttack()) attackCooldownTimer = attackCooldown;
         }
 
         if (Input.GetKeyDown(skillKey) && !skillActive && !isDashing) TryUseSkill();
@@ -273,7 +288,8 @@ public class PlayerController : MonoBehaviour
             if (beamTimer <= 0f) FinishSkillBeam();
         }
 
-        if (Input.GetKeyDown(dashKey) && dashCooldownTimer <= 0f && !isDashing && !isMeleeSkillDashing && (allowAirDash || isGrounded))
+        if (Input.GetKeyDown(dashKey) && dashCooldownTimer <= 0f && !isDashing && !isMeleeSkillDashing
+            && (allowAirDash || isGrounded) && IsUnlocked(SkillType.Dash))
         {
             StartDash();
         }
@@ -495,20 +511,52 @@ public class PlayerController : MonoBehaviour
         jumpsRemaining = Mathf.Min(jumpsRemaining + dashBounceJumpBonus, maxJumpCount);
     }
 
+    // ===================== RANGED AMMO =====================
+    // moi ammoRegenInterval giay tich them 1 vien, toi da maxAmmo. Dung lai khi da day.
+    private void HandleAmmoRegen()
+    {
+        if (currentAmmo >= maxAmmo)
+        {
+            ammoRegenTimer = 0f;
+            return;
+        }
+
+        ammoRegenTimer += Time.deltaTime;
+        if (ammoRegenTimer >= ammoRegenInterval)
+        {
+            ammoRegenTimer -= ammoRegenInterval;
+            currentAmmo = Mathf.Min(currentAmmo + 1, maxAmmo);
+            onAmmoChanged?.Invoke(currentAmmo);
+        }
+    }
+
+    // tru 1 vien dan, tra ve false neu khong con dan de ban
+    private bool TryConsumeAmmo()
+    {
+        if (currentAmmo <= 0) return false;
+
+        currentAmmo--;
+        onAmmoChanged?.Invoke(currentAmmo);
+        return true;
+    }
+
     // ===================== WEAPON / COMBAT =====================
     public void SwitchWeapon()
     {
+        // muon chuyen sang Ranged nhung chua mo khoa thi bo qua, giu nguyen Melee
+        if (currentWeapon == WeaponType.Melee && !IsUnlocked(SkillType.RangedWeapon)) return;
+
         currentWeapon = currentWeapon == WeaponType.Melee ? WeaponType.Ranged : WeaponType.Melee;
     }
 
-    private void PerformAttack()
+    // tra ve true neu don danh thuc su duoc thuc hien (dung de quyet dinh co tinh cooldown khong)
+    private bool PerformAttack()
     {
-        if (attackPoint == null) return;
+        if (attackPoint == null) return false;
 
         if (currentWeapon == WeaponType.Ranged)
         {
-            PerformRangedAttack();
-            return;
+            return PerformRangedAttack();
         }
 
         int count = Physics2D.OverlapBoxNonAlloc(attackPoint.position, attackHitboxSize, 0f, attackHitResults, enemyLayer);
@@ -527,6 +575,7 @@ public class PlayerController : MonoBehaviour
         }
 
         ReflectBullets(); // cung luc, phan lai dan trong hitbox
+        return true;
     }
 
     // goi ham nay tu Bullet.cs khi 1 vien dan thuong (khong phai dan skill, khong phai dan phan lai)
@@ -580,12 +629,19 @@ public class PlayerController : MonoBehaviour
         if (bulletRb != null) bulletRb.linearVelocity = reflectDir * reflectSpeed;
     }
 
-    private void PerformRangedAttack()
+    // chi ban duoc khi con dan; tra ve false neu het dan hoac thieu prefab (khong tinh cooldown)
+    private bool PerformRangedAttack()
     {
         if (bulletPrefab == null)
         {
             Debug.LogWarning("PlayerController: chua gan bulletPrefab.");
-            return;
+            return false;
+        }
+
+        if (!TryConsumeAmmo())
+        {
+            Debug.Log("PlayerController: het dan, cho tich them.");
+            return false;
         }
 
         Transform spawnPoint = firePoint != null ? firePoint : attackPoint;
@@ -596,11 +652,12 @@ public class PlayerController : MonoBehaviour
         {
             bullet.onHitEnemy = _ => NotifyRangedNormalHit();
             bullet.Init(FacingDir, bulletSpeed, bulletDamage);
-            return;
+            return true;
         }
 
         Rigidbody2D bulletRb = bulletObj.GetComponent<Rigidbody2D>();
         if (bulletRb != null) bulletRb.linearVelocity = FacingDir * bulletSpeed;
+        return true;
     }
 
     // ===================== SKILL (phim I) =====================
@@ -627,6 +684,13 @@ public class PlayerController : MonoBehaviour
 
     private void TryUseSkill()
     {
+        SkillType requiredSkill = currentWeapon == WeaponType.Melee ? SkillType.MeleeSkill : SkillType.RangedSkill;
+        if (!IsUnlocked(requiredSkill))
+        {
+            Debug.Log($"PlayerController: skill {requiredSkill} chua duoc mo khoa trong cot truyen.");
+            return;
+        }
+
         int tier = GetSkillTier();
         if (tier == 0)
         {
@@ -646,6 +710,13 @@ public class PlayerController : MonoBehaviour
         }
 
         ConsumeWillStack(tier);
+    }
+
+    // tra ve trang thai mo khoa cua 1 skill. Neu scene chua co SkillUnlockManager (vd: dang test rieng le)
+    // thi mac dinh coi nhu da mo khoa het de khong can setup them.
+    private bool IsUnlocked(SkillType skill)
+    {
+        return SkillUnlockManager.Instance == null || SkillUnlockManager.Instance.IsUnlocked(skill);
     }
 
     // -- melee skill --
