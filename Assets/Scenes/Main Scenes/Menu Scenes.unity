@@ -386,8 +386,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuController
   gameplayScene:
-    sceneAsset: {fileID: 102900000, guid: b722db963d10dd54098a544a9c95e763, type: 3}
-    sceneName: Test Scene
+    sceneAsset: {fileID: 102900000, guid: 2e3d1a4771133f54a933c0a9d68b9228, type: 3}
+    sceneName: OP
   mainPanel: {fileID: 1352161544}
   settingsPanel: {fileID: 138270337}
 --- !u!4 &201754438
