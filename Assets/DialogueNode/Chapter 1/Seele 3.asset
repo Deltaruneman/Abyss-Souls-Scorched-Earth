@@ -20,9 +20,8 @@ MonoBehaviour:
   choices:
   - choiceText: ....
     nextNode: {fileID: 0}
-  - choiceText: "T\u1EA1i sao c\xF4 l\u1EA1i c\xF3 hi\u1EC1m kh\xEDch v\u1EDBi con
-      ng\u01B0\u1EDDi nh\u01B0 v\u1EADy"
-    nextNode: {fileID: 0}
+  - choiceText: "H\u1ECFi l\xED do"
+    nextNode: {fileID: 11400000, guid: b9f82d50e94564c41a220158eed606d3, type: 2}
   autoContinueNode: {fileID: 0}
   onEnter:
     m_PersistentCalls:

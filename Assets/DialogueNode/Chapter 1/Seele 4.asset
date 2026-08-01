@@ -14,15 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   speakerName: Seele
   lines:
-  - "\u1EEA r\u1ED3i sao"
-  - "Chuy\u1EC7n nh\xE0 b\u1ED1 m \xE0"
-  - "Bi\u1EBFn \u0111i con ng\u01B0\u1EDDi"
-  choices:
-  - choiceText: ....
-    nextNode: {fileID: 0}
-  - choiceText: "T\u1EA1i sao c\xF4 l\u1EA1i c\xF3 hi\u1EC1m kh\xEDch v\u1EDBi con
-      ng\u01B0\u1EDDi nh\u01B0 v\u1EADy"
-    nextNode: {fileID: 0}
+  - "Ch\xEDnh con ng\u01B0\u1EDDi c\xE1c ng\u01B0\u01A1i \u0111\xE3 giam gi\u1EEF
+    b\u1ECDn ta \u1EDF \u0111\xE2y"
+  - "Gi\u1EDD b\u1ECDn ta ph\u1EA3i sinh s\u1ED1ng v\xE0 lo s\u01A1 1 ng\xE0y Abyss
+    s\u1EBD b\xF9ng ph\xE1t v\xE0 b\u1ECDn ta s\u1EBD b\u1ECB h\u1EE7y di\u1EC7t
+    ho\xE0n to\xE0n"
+  - "L\xE0 l\u1ED7i c\u1EE7a c\xE1c ng\u01B0\u01A1i t\u1EA5t"
+  - "Bi\u1EBFn \u0111i"
+  choices: []
   autoContinueNode: {fileID: 0}
   onEnter:
     m_PersistentCalls:
