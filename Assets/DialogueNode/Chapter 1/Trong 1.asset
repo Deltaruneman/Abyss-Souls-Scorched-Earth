@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aee07975a450b445a8cb8f743cb0138, type: 3}
+  m_Name: Trong 1
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  speakerName: "Tr\u1ECDng"
+  lines:
+  - "Khoan t\xF4i kh\xF4ng l\xE0m g\xEC \u0111\xE2u m\xE0"
+  - "T\xF4i ch\u1EC9 l\xE0.."
+  - "T\xF4i ch\u1EB3ng nh\u1EDB \u0111\u01B0\u1EE3c g\xEC c\u1EA3"
+  - "T\xF4i ch\u1EC9 bi\u1EBFt m\xECnh b\u1ECB r\u01A1i xu\u1ED1ng \u0111\xE2y b\u1EB1ng
+    1 c\xE1ch n\xE0o \u0111\xF3 "
+  - "Gi\u1EDD t\xF4i mu\u1ED1n \u0111i v\u1EC1 nh\xE0 "
+  choices: []
+  autoContinueNode: {fileID: 11400000, guid: 9afe9d3ebdf191046abc559d56a09906, type: 2}
+  onEnter:
+    m_PersistentCalls:
+      m_Calls: []

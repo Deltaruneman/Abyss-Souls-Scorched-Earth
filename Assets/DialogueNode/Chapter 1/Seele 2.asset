@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aee07975a450b445a8cb8f743cb0138, type: 3}
+  m_Name: Seele 2
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  speakerName: Seele
+  lines:
+  - "Ng\u01B0\u01A1i \u0111an chu\u1EA9n b\u1ECB \u0103n ta \u0111\xFAng kh\xF4ng
+    ta bi\u1EBFt m\xE0"
+  - "Hu hu \u0111\xE1m con ng\u01B0\u1EDDi x\u1EA5u sa"
+  - "Kh\xF4ng \u0111\u01B0\u1EE3c \u0111\xE2u, ta  v\u1EABn c\xF2n mu\u1ED1n s\u1ED1ng
+    m\xE0"
+  choices: []
+  autoContinueNode: {fileID: 0}
+  onEnter:
+    m_PersistentCalls:
+      m_Calls: []
