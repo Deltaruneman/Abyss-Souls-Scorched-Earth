@@ -12,18 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aee07975a450b445a8cb8f743cb0138, type: 3}
   m_Name: dia-01
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  speakerName: "Tr\u1ECDng"
+  defaultSpeakerName: 
   lines:
-  - "\u01AF \u01B0 "
-  - "\u0110au qu\xE1"
-  - "V\xEC sao m\xECnh l\u1EA1i \u1EDF \u0111\xE2y"
-  - "M\u1ECDi th\u1EE9 qu\xE1 \u0111\u1ED7i m\u01A1 h\u1ED3 "
-  - "Ban n\xE3y r\xF5 r\xE0ng m\xECnh v\u1EEBa..."
-  - "A \u0111au \u0111\u1EA7u qu\xE1"
-  - "\u0110\xE2y l\xE0 n\u01A1i qu\xE1i qu\u1EF7 n\xE0o \u0111\xE2y"
-  - "M\xECnh c\u1EA7n ph\u1EA3i tho\xE1t  kh\u1ECFi \u0111\xE2y"
-  - "M\xECnh c\xF2n ph\u1EA3i \u0111i l\xE0m"
-  - "\u0110\u1EBFn gi\u1EDD Escape c\xE1i .... n\xE0y r\u1ED3i"
+  - speakerName: 
+    text: 
+  - speakerName: 
+    text: 
+  - speakerName: 
+    text: 
+  - speakerName: 
+    text: 
+  - speakerName: 
+    text: 
+  - speakerName: 
+    text: 
+  - speakerName: 
+    text: 
+  - speakerName: 
+    text: 
+  - speakerName: 
+    text: 
+  - speakerName: 
+    text: 
   choices: []
   autoContinueNode: {fileID: 0}
   onEnter:
