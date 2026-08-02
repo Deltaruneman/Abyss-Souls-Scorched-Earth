@@ -3,14 +3,26 @@ using UnityEngine;
 /// <summary>
 /// Gắn vào GameObject của NPC (cần Collider2D với isTrigger = true, kích thước
 /// = vùng tương tác). Khi Player đứng trong vùng và bấm interactKey, hội thoại
-/// bắt đầu từ startNode qua DialogueManager.
+/// bắt đầu từ dialogueSequence[talkCount] qua DialogueManager. Mỗi lần tương tác
+/// thành công, talkCount tăng lên 1 để lần sau nói node tiếp theo trong danh sách.
 /// </summary>
 [RequireComponent(typeof(Collider2D))]
 public class NPCDialogue : MonoBehaviour, IDialogueSource
 {
     [Header("Dialogue")]
-    [Tooltip("Node bắt đầu hội thoại khi Player tương tác với NPC này")]
-    public DialogueNode startNode;
+    [Tooltip("Danh sách node hội thoại theo thứ tự: lần tương tác thứ 1 dùng phần tử [0], " +
+             "lần thứ 2 dùng [1], v.v. Khi hết danh sách, hành vi tuỳ theo 'repeatLastNode' bên dưới.")]
+    public DialogueNode[] dialogueSequence;
+    [Tooltip("Bật: khi đã nói hết danh sách, các lần tương tác sau sẽ lặp lại node CUỐI CÙNG mãi mãi.\n" +
+             "Tắt: khi đã nói hết danh sách, NPC sẽ không phản hồi tương tác nữa (im lặng).")]
+    public bool repeatLastNode = true;
+
+    // Số lần Player đã tương tác thành công với NPC này, dùng làm index cho dialogueSequence
+    private int talkCount;
+
+    // Backward-compat: nếu ai vẫn set giá trị ở đây qua code cũ, nó sẽ được dùng làm phần tử [0]
+    // khi dialogueSequence trống. Không hiện trong Inspector nữa để tránh nhầm lẫn với hệ thống mới.
+    [HideInInspector] public DialogueNode startNode;
 
     [Header("Interaction")]
     [Tooltip("Layer chứa object Player, dùng để lọc trigger (đồng bộ với các script khác trong project)")]
@@ -45,15 +57,41 @@ public class NPCDialogue : MonoBehaviour, IDialogueSource
     private void Update()
     {
         if (!playerInRange) return;
-        if (startNode == null) return;
+
+        DialogueNode nodeToPlay = GetNodeForCurrentTalkCount();
+        if (nodeToPlay == null) return;
+
         if (DialogueManager.Instance == null || DialogueManager.Instance.IsDialogueActive) return;
         if (Time.frameCount == DialogueManager.Instance.DialogueEndFrame) return;
 
         if (Input.GetKeyDown(interactKey))
         {
             npc?.SetTalking(true, playerTransform);
-            DialogueManager.Instance.StartDialogue(startNode, this);
+            DialogueManager.Instance.StartDialogue(nodeToPlay, this);
+            talkCount++;
         }
+    }
+
+    /// <summary>
+    /// Trả về node hội thoại tương ứng với lần tương tác hiện tại (dựa trên talkCount).
+    /// Trả về null nếu không có node nào để nói (ví dụ đã hết danh sách và repeatLastNode = false).
+    /// </summary>
+    private DialogueNode GetNodeForCurrentTalkCount()
+    {
+        // Fallback: chưa gán dialogueSequence nhưng vẫn còn dùng startNode kiểu cũ
+        if ((dialogueSequence == null || dialogueSequence.Length == 0))
+        {
+            return talkCount == 0 ? startNode : (repeatLastNode ? startNode : null);
+        }
+
+        if (talkCount < dialogueSequence.Length)
+        {
+            return dialogueSequence[talkCount];
+        }
+
+        // Đã nói hết danh sách
+        if (!repeatLastNode) return null;
+        return dialogueSequence[dialogueSequence.Length - 1];
     }
 
     private void OnTriggerEnter2D(Collider2D other)

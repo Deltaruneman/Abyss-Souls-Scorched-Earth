@@ -114,11 +114,17 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     private void DisplayCurrentLine()
     {
-        if (speakerNameText != null) speakerNameText.text = currentNode.speakerName;
-
-        string line = (currentNode.lines != null && currentLineIndex < currentNode.lines.Count)
+        DialogueLine currentLine = (currentNode.lines != null && currentLineIndex < currentNode.lines.Count)
             ? currentNode.lines[currentLineIndex]
-            : string.Empty;
+            : null;
+
+        // Ưu tiên speakerName riêng của câu thoại; nếu để trống thì dùng defaultSpeakerName của node
+        string speaker = (currentLine != null && !string.IsNullOrEmpty(currentLine.speakerName))
+            ? currentLine.speakerName
+            : currentNode.defaultSpeakerName;
+        if (speakerNameText != null) speakerNameText.text = speaker;
+
+        string line = (currentLine != null) ? currentLine.text : string.Empty;
         if (dialogueText != null) dialogueText.text = line;
 
         // onEnter chỉ gọi 1 lần khi vừa vào node (ở câu đầu tiên), không gọi lại mỗi lần lướt câu

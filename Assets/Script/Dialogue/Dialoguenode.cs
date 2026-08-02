@@ -12,13 +12,14 @@ using UnityEngine.Events;
 public class DialogueNode : ScriptableObject
 {
     [Header("Nội dung")]
-    [Tooltip("Tên người nói, hiển thị phía trên câu thoại (để trống nếu không cần)")]
-    public string speakerName;
+    [Tooltip("Tên người nói MẶC ĐỊNH cho cả node. Dùng làm fallback cho các câu (DialogueLine) " +
+             "không tự đặt speakerName riêng. Để trống nếu mỗi câu đều tự set tên riêng.")]
+    public string defaultSpeakerName;
 
     [Tooltip("Các câu thoại hiển thị LẦN LƯỢT trong node này (bấm phím tiếp tục để chuyển câu). " +
+             "Mỗi câu có thể tự đặt tên người nói riêng (để trống thì dùng defaultSpeakerName ở trên). " +
              "Lựa chọn/autoContinueNode chỉ xuất hiện sau khi đã hiện xong câu cuối cùng trong list này.")]
-    [TextArea(2, 4)]
-    public List<string> lines = new List<string>();
+    public List<DialogueLine> lines = new List<DialogueLine>();
 
     [Header("Lựa chọn (rẽ nhánh)")]
     [Tooltip("Các câu trả lời người chơi có thể chọn ở node này. " +
