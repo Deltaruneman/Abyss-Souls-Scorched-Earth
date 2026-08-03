@@ -10,8 +10,11 @@ using UnityEngine;
 public class NPC : MonoBehaviour
 {
     [Header("Patrol (tuỳ chọn)")]
-    [Tooltip("Các điểm NPC sẽ đi qua lần lượt, quay vòng. Để trống nếu muốn NPC đứng yên 1 chỗ.")]
+    [Tooltip("Các điểm NPC sẽ đi qua lần lượt. Để trống nếu muốn NPC đứng yên 1 chỗ.")]
     public Transform[] patrolPoints;
+    [Tooltip("Bật: đi hết patrolPoints rồi quay vòng lại điểm đầu tiên.\n" +
+             "Tắt: đi 1 chiều từ điểm đầu tới điểm cuối rồi DỪNG HẲN tại điểm cuối, không quay lại.")]
+    public bool loopPatrol = false;
     [Tooltip("Tốc độ di chuyển khi patrol")]
     public float moveSpeed = 1.5f;
     [Tooltip("Thời gian (giây) NPC đứng chờ tại mỗi điểm trước khi đi tiếp điểm kế")]
@@ -28,6 +31,8 @@ public class NPC : MonoBehaviour
     private int currentPatrolIndex;
     private float waitTimer;
     private bool isTalking;
+    // Chỉ dùng khi loopPatrol = false: đánh dấu đã đi tới điểm cuối cùng, dừng hẳn không đi tiếp nữa.
+    private bool patrolFinished;
 
     private void Awake()
     {
@@ -51,6 +56,13 @@ public class NPC : MonoBehaviour
             return;
         }
 
+        // Đi 1 chiều và đã tới điểm cuối cùng -> đứng yên hẳn, không đi tiếp nữa.
+        if (patrolFinished)
+        {
+            StopMoving();
+            return;
+        }
+
         if (waitTimer > 0f)
         {
             waitTimer -= Time.fixedDeltaTime;
@@ -66,7 +78,17 @@ public class NPC : MonoBehaviour
 
         if (distance <= arriveThreshold)
         {
-            // Tới điểm patrol -> đứng chờ rồi chuyển sang điểm kế tiếp (quay vòng)
+            bool isLastPoint = currentPatrolIndex == patrolPoints.Length - 1;
+
+            if (isLastPoint && !loopPatrol)
+            {
+                // Đi 1 chiều: tới điểm cuối cùng -> dừng hẳn, không quay lại điểm đầu.
+                patrolFinished = true;
+                StopMoving();
+                return;
+            }
+
+            // Tới điểm patrol -> đứng chờ rồi chuyển sang điểm kế tiếp (quay vòng nếu loopPatrol bật)
             waitTimer = waitTimeAtPoint;
             currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
             StopMoving();
@@ -114,6 +136,13 @@ public class NPC : MonoBehaviour
         {
             float xDir = playerTransform.position.x - transform.position.x;
             UpdateFacing(xDir);
+        }
+
+        // Hội thoại vừa kết thúc -> bỏ qua phần thời gian chờ còn lại tại điểm patrol
+        // (nếu có), để NPC đi tiếp ngay thay vì đứng chờ hết waitTimeAtPoint.
+        if (!talking)
+        {
+            waitTimer = 0f;
         }
     }
 }
