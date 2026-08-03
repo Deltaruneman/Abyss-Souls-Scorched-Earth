@@ -32,7 +32,7 @@ MonoBehaviour:
   - choiceText: "Con ng\u01B0\u1EDDi"
     nextNode: {fileID: 11400000, guid: 600009a156cb6984086c237f7f5d217a, type: 2}
   - choiceText: ....
-    nextNode: {fileID: 11400000, guid: 600009a156cb6984086c237f7f5d217a, type: 2}
+    nextNode: {fileID: 11400000, guid: 3eec231d990ffc549ba798a3e34b232d, type: 2}
   autoContinueNode: {fileID: 0}
   onEnter:
     m_PersistentCalls:

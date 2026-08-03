@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   defaultSpeakerName: 
   lines:
-  - speakerName: "Tr\u1ECDng"
-    text: "T\xF4i l\xE0  m\u1ED9t con ng\u01B0\u1EDDi."
+  - speakerName: Seele
+    text: "N\xE0y sao l\u1EA1i im l\u1EB7ng v\xE2... Ch\u1EDD \u0111\xE3 kh\xF4ng
+      l\u1EBD n\xE0o.."
   - speakerName: 'Seele '
     text: "Con ng\u01B0\u1EDDi?!?! Ch\xFAng \u0111\xE1ng ra kh\xF4ng th\u1EC3 xu\u1EA5t
       hi\u1EC7n \u1EDF \u0111\xE2y."

@@ -152,6 +152,11 @@ public class DialogueManager : MonoBehaviour
             {
                 SpawnChoiceButton(choice);
             }
+
+            if (choicesContainer != null)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(choicesContainer as RectTransform);
+            }
         }
     }
 
@@ -179,6 +184,10 @@ public class DialogueManager : MonoBehaviour
 
         button.onClick.AddListener(() => SelectChoice(choice));
         spawnedChoiceButtons.Add(button.gameObject);
+
+        // Ép Unity tính lại layout ngay lập tức, tránh trường hợp kích thước nút
+        // (Content Size Fitter / Layout Group) chưa cập nhật kịp theo độ dài text mới.
+        LayoutRebuilder.ForceRebuildLayoutImmediate(button.GetComponent<RectTransform>());
     }
 
     private void ClearChoiceButtons()
