@@ -15,25 +15,24 @@ MonoBehaviour:
   defaultSpeakerName: 
   lines:
   - speakerName: 
-    text: 
+    text: ...
+  - speakerName: "Tr\u1ECDng"
+    text: "\u01AF \u01B0."
+  - speakerName: "Tr\u1ECDng"
+    text: "\u0110au qu\xE1."
+  - speakerName: "Tr\u1ECDng "
+    text: "\u0110\xE2y l\xE0 n\u01A1i qu\xE1i n\xE0o v\u1EADy."
+  - speakerName: "Tr\u1ECDng"
+    text: "M\xECnh \u0111\xE3 tr\xEAn \u0111\u01B0\u1EDDng..."
+  - speakerName: "Tr\u1ECDng"
+    text: "Ahh \u0111au \u0111\u1EA7u qu\xE1, ch\u1EB3ng nh\u1EDB \u0111\u01B0\u1EE3c
+      g\xEC c\u1EA3."
+  - speakerName: "Tr\u1ECDng"
+    text: "R\u1ED1t cu\u1ED9c \u0111\xE2y l\xE0 n\u01A1i n\xE0o."
   - speakerName: 
-    text: 
-  - speakerName: 
-    text: 
-  - speakerName: 
-    text: 
-  - speakerName: 
-    text: 
-  - speakerName: 
-    text: 
-  - speakerName: 
-    text: 
-  - speakerName: 
-    text: 
-  - speakerName: 
-    text: 
-  - speakerName: 
-    text: 
+    text: "(B\u1EA1n \u0111\xE3 b\u1ECB d\u1ECBch chuy\u1EC3n \u0111\u1EBFn 1 th\u1EBF
+      gi\u1EDBi m\xE0 ch\xEDnh b\u1EA3n th\xE2n ban c\xF2n ch\u1EB3ng bi\u1EBFt.
+      Good luck :)) )"
   choices: []
   autoContinueNode: {fileID: 0}
   onEnter:

@@ -12,14 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aee07975a450b445a8cb8f743cb0138, type: 3}
   m_Name: Seele 1
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  speakerName: Seele
+  defaultSpeakerName: 
   lines:
-  - "Aaa con ng\u01B0\u1EDDi"
-  - "Khoan con ng\u01B0\u1EDDi kh\xF4ng th\u1EC3 c\xF3 ma l\u1EF1c nh\u01B0 v\u1EADy"
-  - "Ng\u01B0\u1EDDi l\xE0 1 con ng\u01B0\u1EDDi ma l\u1EF1c"
-  - "M\xE0 khoan sao ng\u01B0\u01A1i l\u1EA1i \u0111\xEAn \u0111\u01B0\u1EE3c \u0111\xE2y"
+  - speakerName: Seele
+    text: Ahhhh
+  - speakerName: Seele
+    text: "Ng\u01B0\u01A1i c\xF3 h\xECnh d\u1EA1ng... A.. Abyss..."
+  - speakerName: "Tr\u1ECDng "
+    text: "\u0110i\u1EC1u n\xE0y k\xEC l\u1EA1 l\u1EAFm sao?"
+  - speakerName: Seele
+    text: ...
+  - speakerName: Seele
+    text: "Ng\u01B0\u01A1i c\xF3 th\u1EC3 n\xF3i chuy\u1EC7n."
+  - speakerName: Seele
+    text: "Ng\u01B0\u01A1i ko ph\u1EA3i \" The Abyss One\"."
+  - speakerName: Seele
+    text: "R\u1ED1t cu\u1ED9c ng\u01B0\u01A1i l\xE0 k\u1EBB n\xE0o"
   choices:
-  - choiceText: "Ch\u1ECBu"
+  - choiceText: "Con ng\u01B0\u1EDDi"
     nextNode: {fileID: 11400000, guid: 600009a156cb6984086c237f7f5d217a, type: 2}
   - choiceText: ....
     nextNode: {fileID: 11400000, guid: 600009a156cb6984086c237f7f5d217a, type: 2}

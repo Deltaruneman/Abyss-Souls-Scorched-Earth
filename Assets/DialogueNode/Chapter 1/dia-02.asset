@@ -12,17 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aee07975a450b445a8cb8f743cb0138, type: 3}
   m_Name: dia-02
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  speakerName: ???
+  defaultSpeakerName: 
   lines:
-  - 'Brr brr Patapim '
-  - "N\u1EEB n\xE1 na na"
-  - "l\xE0 l\xE1 la la"
-  - '??? '
-  - "L\u01B0\u1EE3ng ma l\u1EF1c n\xE0y??"
-  - "C\xF3 the Abyss one sao ?!?!"
-  - "Ch\u1EDD \u0111\xE3.... \u0111\xF3"
-  - "L\xE0 l\xE0....con ng\u01B0\u1EDDi?????"
-  - AAAAAA
+  - speakerName: 
+    text: 
+  - speakerName: ???
+    text: "L\xE0 l\xE1 la la"
+  - speakerName: ???
+    text: "N\xE0 n\xE1 na na"
+  - speakerName: "Tr\u1ECDng"
+    text: "(\u1EDE b\xEAn kia h\xECnh nh\u01B0 c\xF3 ai \u0111\xF3 th\xEC ph\u1EA3i
+      )"
+  - speakerName: "Tr\u1ECDng"
+    text: "Ch\u1EBFt ti\u1EC7t m\xECnh ko l\u1EBD c\u1EE9 th\u1EBF \u0111\u1EBFn
+      b\u1EAFt chuy\u1EC7n sao."
+  - speakerName: "Tr\u1ECDng"
+    text: "\u0110i\u1EC1u n\xE0y qu\xE1 kh\xF3 v\u1EDBi trung b\xECnh sv UIT"
+  - speakerName: ???
+    text: "K\u1EBB n\xE0o \u0111\xF3!?!?"
   choices: []
   autoContinueNode: {fileID: 0}
   onEnter:

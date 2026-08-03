@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aee07975a450b445a8cb8f743cb0138, type: 3}
+  m_Name: Seele 2-1
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  defaultSpeakerName: 
+  lines:
+  - speakerName: "Tr\u1ECDng"
+    text: "T\xF4i l\xE0  m\u1ED9t con ng\u01B0\u1EDDi."
+  - speakerName: 'Seele '
+    text: "Con ng\u01B0\u1EDDi?!?! Ch\xFAng \u0111\xE1ng ra kh\xF4ng th\u1EC3 xu\u1EA5t
+      hi\u1EC7n \u1EDF \u0111\xE2y."
+  - speakerName: 'Seele '
+    text: "Con ng\u01B0\u1EDDi ch\u1EBFt ti\u1EC7t, sao ng\u01B0\u01A1i d\xE1m b\xE9n
+      m\u1EA3ng \u0111\u1EBFn \u0111\xE2y."
+  - speakerName: "Tr\u1ECDng (k\u1EBB ch\u1EBFt ti\u1EC7t)"
+    text: "Ch\u1EDD \u0111\xE3 n\xE0o, t\xF4i kh\xF4ng hi\u1EC3u c\xF4 mu\u1ED1n
+      n\xF3i g\xEC c\u1EA3?!?"
+  - speakerName: Seele
+    text: "Ch\u1EB3ng ph\u1EA3i ch\xEDnh lo\xE0i ng\u01B0\u1EDDi c\xE1c ng\u01B0\u01A1i
+      \u0111\xE3 giam c\u1EA7m b\u1ECDn ta t\u1EA1i \u0111\xE2y sao??"
+  - speakerName: "Tr\u1ECDng (k\u1EBB ch\u1EBFt ti\u1EC7t b\u1ED1i r\u1ED1i)"
+    text: "Khoan \u0111\xE3, giam c\u1EA7m g\xEC c\u01A1."
+  - speakerName: Seele
+    text: "Ch\xEDnh c\xE1c ng\u01B0\u01A1i l\xE0 k\u1EBB \u0111\xE3 l\u1EEBa b\u1ECDn
+      ta v\xE0 phong \u1EA5n ch\xFAng ta t\u1EA1i \"Souls World\" kh\xF4ng ph\u1EA3i
+      sao??"
+  - speakerName: "Tr\u1ECDng"
+    text: "?!?? ( C\xF4 ta \u0111ang n\xF3i g\xEC v\u1EADy, m\xECnh ch\u1EB3ng hi\u1EC3u
+      g\xEC c\u1EA3)"
+  - speakerName: Seele
+    text: "Bi\u1EBFn \u0111i t\xEAn con ng\u01B0\u1EDDi ch\u1EBFt ti\u1EC7t."
+  choices: []
+  autoContinueNode: {fileID: 0}
+  onEnter:
+    m_PersistentCalls:
+      m_Calls: []
