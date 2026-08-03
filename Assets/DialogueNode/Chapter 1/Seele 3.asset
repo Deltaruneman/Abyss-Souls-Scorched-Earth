@@ -12,15 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aee07975a450b445a8cb8f743cb0138, type: 3}
   m_Name: Seele 3
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  speakerName: Seele
+  defaultSpeakerName: 
   lines:
-  - "\u1EEA r\u1ED3i sao"
-  - "Chuy\u1EC7n nh\xE0 b\u1ED1 m \xE0"
-  - "Bi\u1EBFn \u0111i con ng\u01B0\u1EDDi"
+  - speakerName: Seele
+    text: "N\xE0y ng\u01B0\u01A1i \u0111ang b\xE1m theo ta \u0111\u1EA5y \xE0"
+  - speakerName: "Tr\u1ECDng"
+    text: "\u1EDC.. th\xEC \u0111\xF3 d\u01B0\u1EDDng nh\u01B0 l\xE0 \u0111i\u1EC1u
+      duy nh\u1EA5t t\xF4i c\xF3 th\u1EC3 l\xE0m"
+  - speakerName: Seele
+    text: "M\xE0 ph\u1EA3i r\u1ED3i l\xE0m sao ng\u01B0\u01A1i \u0111\u1EBFn \u0111\u01B0\u1EE3c
+      \u0111\xE2y v\u1EADy,"
+  - speakerName: "Tr\u1ECDng"
+    text: "T\xF4i c\u0169ng \u0111ang th\u1EAFc m\u1EAFc \u0111\xE2y."
+  - speakerName: Seele
+    text: "C\u0169ng ch\u1EB3ng ph\u1EA3i chuy\u1EC7n c\u1EE7a ta, ta s\u1EBD t\xECm
+      ng\u01B0\u1EDDi \u0111\u1EBFn b\u1EAFt ng\u01B0\u01A1i."
+  - speakerName: "Tr\u1ECDng"
+    text: "T\xF4i c\xF3 th\u1EC3 \u0111i c\xF9ng c\xF4"
+  - speakerName: Seele
+    text: "?? Ng\u01B0\u01A1i mu\u1ED1n b\u1ECB b\u1EAFt \u0111\u1EBFn v\u1EADy \xE0
+      \u0111\u1ED3 con ng\u01B0\u1EDDi ch\u1EBFt ti\u1EC7t??"
   choices:
   - choiceText: ....
     nextNode: {fileID: 0}
-  - choiceText: "H\u1ECFi l\xED do"
+  - choiceText: "Ch\u1ECBu"
     nextNode: {fileID: 11400000, guid: b9f82d50e94564c41a220158eed606d3, type: 2}
   autoContinueNode: {fileID: 0}
   onEnter:

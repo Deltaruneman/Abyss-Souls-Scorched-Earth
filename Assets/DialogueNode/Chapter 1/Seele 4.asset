@@ -12,15 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aee07975a450b445a8cb8f743cb0138, type: 3}
   m_Name: Seele 4
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  speakerName: Seele
+  defaultSpeakerName: 
   lines:
-  - "Ch\xEDnh con ng\u01B0\u1EDDi c\xE1c ng\u01B0\u01A1i \u0111\xE3 giam gi\u1EEF
-    b\u1ECDn ta \u1EDF \u0111\xE2y"
-  - "Gi\u1EDD b\u1ECDn ta ph\u1EA3i sinh s\u1ED1ng v\xE0 lo s\u01A1 1 ng\xE0y Abyss
-    s\u1EBD b\xF9ng ph\xE1t v\xE0 b\u1ECDn ta s\u1EBD b\u1ECB h\u1EE7y di\u1EC7t
-    ho\xE0n to\xE0n"
-  - "L\xE0 l\u1ED7i c\u1EE7a c\xE1c ng\u01B0\u01A1i t\u1EA5t"
-  - "Bi\u1EBFn \u0111i"
+  - speakerName: "Tr\u1ECDng ( kh\xF4ng h\u1EC1 c\xF3 m\xE1u M)"
+    text: "C\u01A1 b\u1EA3n l\xE0 t\xF4i c\u0169ng \u0111\xE2u l\xE0m g\xEC \u0111\u01B0\u1EE3c
+      n\u1EEFa"
+  - speakerName: Seele
+    text: "\xC0 c\u0169ng ph\u1EA3i nh\u1EC9"
   choices: []
   autoContinueNode: {fileID: 0}
   onEnter:
