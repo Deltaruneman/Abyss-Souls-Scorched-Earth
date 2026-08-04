@@ -14,12 +14,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   defaultSpeakerName: 
   lines:
-  - speakerName: "Tr\u1ECDng ( kh\xF4ng h\u1EC1 c\xF3 m\xE1u M)"
-    text: "C\u01A1 b\u1EA3n l\xE0 t\xF4i c\u0169ng \u0111\xE2u l\xE0m g\xEC \u0111\u01B0\u1EE3c
-      n\u1EEFa"
   - speakerName: Seele
-    text: "\xC0 c\u0169ng ph\u1EA3i nh\u1EC9"
-  choices: []
+    text: "N\xE0y nhanh l\xEAn \u0111i ch\u1EE9."
+  - speakerName: "Tr\u1ECDng"
+    text: "T\xF4i kh\xF4ng th\u1EC3 bay nh\u01B0 c\xF4 \u0111\xE2u."
+  - speakerName: "Tr\u1ECDng"
+    text: "(m\xE0 ngh\u0129 l\u1EA1i th\xEC v\xEC sao c\xF4 ta l\u1EA1i mang h\xECnh
+      d\u1EA1ng nh\u01B0 n\xE0y nh\u1EC9)"
+  - speakerName: "Tr\u1ECDng"
+    text: "(ngh\u0129 k\u1EF9 l\u1EA1i th\xEC v\xEC sao m\xECnh kh\xF4ng c\u1EA3m
+      th\u1EA5y s\u1EE3 v\u1EDBi 1 sinh v\u1EADt nh\u01B0 v\u1EADy nh\u1EC9??)"
+  - speakerName: "Tr\u1ECDng"
+    text: "(m\xE0 \u1EDF c\xE1i n\u01A1i k\xEC l\u1EA1i n\xE0y th\xEC c\xF2n chuy\u1EC7n
+      g\xEC t\u1EC7 h\u01A1n x\u1EA3y ra \u0111\u01B0\u1EE3c n\u1EEFa nh\u1EC9?)"
+  - speakerName: Seele
+    text: "\u1ED2 v\u1EADy b\u1ECDn ta ph\u1EA3i c\u1EA3m \u01A1n c\xE1c ng\u01B0\u01A1i
+      v\xEC h\xECnh d\u1EA1ng n\xE0y \xE0."
+  - speakerName: "Tr\u1ECDng"
+    text: "?!?! \xDD c\xF4 l\xE0 sao c\u01A1.?"
+  - speakerName: Seele
+    text: "D\u01B0\u1EDBi \u1EA3nh h\u01B0\u1EDFng c\u1EE7a \"Souls World\" c\u01A1
+      th\u1EC3 b\u1ECDn ta kh\xF4ng c\xF2n gi\u1EEF \u0111\u01B0\u1EE3c c\u1EA5u
+      tr\xFAc v\u1ED1n c\xF3."
+  - speakerName: Seele
+    text: "Gi\u1EDD ta ch\u1EC9 c\xF2n linh h\u1ED3n v\xE0 ma l\u1EF1c th\xF4i."
+  - speakerName: Seele
+    text: "D\u0129 nhi\xEAn s\u1EED d\u1EE5ng ma l\u1EF1c s\u1EBD khi\u1EBFn linh
+      h\u1ED3n ta y\u1EBFu \u0111i."
+  - speakerName: Seele
+    text: "\u0110\xF3 l\xE0 l\xED do ta kh\xF4ng gi\u1EBFt ng\u01B0\u01A1i ngay t\u1EEB
+      \u0111\u1EA7u \u0111\u1EA5y."
+  - speakerName: "Tr\u1ECDng"
+    text: "Ch\u1EDD \u0111\xE3 n\xE0o..."
+  choices:
+  - choiceText: "H\u1ECFi qu\xE1 kh\u1EE9"
+    nextNode: {fileID: 11400000, guid: 1c66aa9a3926c8849854e36fd00ed5bc, type: 2}
+  - choiceText: ...
+    nextNode: {fileID: 0}
   autoContinueNode: {fileID: 0}
   onEnter:
     m_PersistentCalls:
