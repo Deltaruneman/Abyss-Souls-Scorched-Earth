@@ -15,18 +15,16 @@ MonoBehaviour:
   defaultSpeakerName: 
   lines:
   - speakerName: Seele
-    text: "B\u1ECDn ta \u0111\xE3 t\u1EEBng \u0111\u1ED3ng l\xF2ng,"
+    text: "D\xF9 v\u1EADy nh\u01B0ng..."
   - speakerName: Seele
-    text: "\u0110\xE3 t\u1EEBng coi nhau nhu ng\u01B0\u1EDDi nh\xE0."
+    text: "Th\u1EADt l\xF2ng ta c\u0169ng kh\xF4ng mu\u1ED1n.."
   - speakerName: Seele
-    text: "Trong cu\u1ED9c chi\u1EBFn \u0111\xF3 c\xF3 qu\xE1 nhi\u1EC1u m\u1EA5t
-      m\xE1t."
+    text: "Ng\u01B0\u01A1i bi\u1EBFt \u0111\u1EA5y..."
+  - speakerName: "Tr\u1ECDng"
+    text: "Gi\u1EBFt t\xF4i kh\xF4ng mang l\u1EA1i k\u1EBFt qu\u1EA3 g\xEC \u0111\xFAng
+      ch\u1EE9."
   - speakerName: Seele
-    text: "Nhi\u1EC1u \u0111\u1EBFn m\u1EE9c ta kh\xF4ng th\u1EC3 hi\u1EC3u \u0111\u01B0\u1EE3c
-      v\xEC sao h\u1ECD l\u1EA1i ph\u1EA3n b\u1ED9i."
-  - speakerName: Seele
-    text: "Qu\xE1 nhi\u1EC1u n\u1ED7i \u0111au tr\xE0n ng\u1EADp trong t\xE2m tr\xED,
-      ta kh\xF4ng th\u1EC3 kh\xF4ng c\xE2m h\u1EADn h\u1ECD"
+    text: ...
   choices: []
   autoContinueNode: {fileID: 0}
   onEnter:

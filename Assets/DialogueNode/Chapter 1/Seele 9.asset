@@ -13,7 +13,14 @@ MonoBehaviour:
   m_Name: Seele 9
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   defaultSpeakerName: 
-  lines: []
+  lines:
+  - speakerName: Seele
+    text: "Ta c\u0169ng kh\xF4ng r\xF5 n\u1EEFa."
+  - speakerName: Seele
+    text: "Tuy nhi\xEAn n\u1EBFu h\u1EA5p th\u1EE5 ng\u01B0\u01A1i c\xF3 l\u1EBD
+      b\u1ECDn ta s\u1EBD ph\xE1 \u0111\u01B0\u1EE3c k\u1EBFt gi\u1EDBi."
+  - speakerName: Seele
+    text: "Ho\u1EB7c c\u0169ng c\xF3 th\u1EC3 kh\xF4ng."
   choices: []
   autoContinueNode: {fileID: 0}
   onEnter:

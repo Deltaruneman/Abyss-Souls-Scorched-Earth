@@ -27,6 +27,14 @@ MonoBehaviour:
   - speakerName: Seele
     text: "Qu\xE1 nhi\u1EC1u n\u1ED7i \u0111au tr\xE0n ng\u1EADp trong t\xE2m tr\xED,
       ta kh\xF4ng th\u1EC3 kh\xF4ng c\xE2m h\u1EADn h\u1ECD"
+  - speakerName: Seele
+    text: "V\xE0o ph\xFAt then ch\u1ED1t phong \u1EA5n Abyss v\xE0o \"Souls World\",
+      con ng\u01B0\u1EDDi \u0111\xE3 lao l\xEAn t\xE0n s\xE1t c\xE1c Magician kh\xE1c."
+  - speakerName: Seele
+    text: "B\u1ECDn ta \u0111\xE3 qu\xE1 s\u1EE3 h\xE3i n\xEAn \u0111\xE3 tr\u1EF1c
+      ti\u1EBFp nh\u1EA3y v\xE0o c\xE1nh c\u1ED5ng."
+  - speakerName: Seele
+    text: "V\xE0 k\u1EBFt qu\u1EA3 l\xE0 b\u1ECB m\u1EAFc k\u1EB9t t\u1EA1i \u0111\xE2y"
   choices: []
   autoContinueNode: {fileID: 0}
   onEnter:
