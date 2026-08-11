@@ -13,7 +13,20 @@ MonoBehaviour:
   m_Name: dia-04
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   defaultSpeakerName: 
-  lines: []
+  defaultSpeakerPortrait: {fileID: 0}
+  lines:
+  - speakerName: "Tr\u1ECDng"
+    text: "\xD4i c\xE1i..."
+    portrait: {fileID: 0}
+  - speakerName: "Tr\u1ECDng"
+    text: "Hy v\u1ECDng m\xECnh kh\xF4ng ch\u1EBFt sau pha n\xE0y."
+    portrait: {fileID: 0}
+  - speakerName: "Tr\u1ECDng"
+    text: "Haizz m\xECnh c\xF2n ch\u01B0a ra tr\u01B0\u1EDDng."
+    portrait: {fileID: 0}
+  - speakerName: "Tr\u1ECDng"
+    text: "C\xF2n qu\xE1 s\u1EDBm \u0111\u1EC3 t\u1EEB b\u1ECF."
+    portrait: {fileID: 0}
   choices: []
   autoContinueNode: {fileID: 0}
   onEnter:

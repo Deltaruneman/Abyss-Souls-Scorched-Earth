@@ -13,23 +13,22 @@ MonoBehaviour:
   m_Name: dia-03
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   defaultSpeakerName: 
+  defaultSpeakerPortrait: {fileID: 0}
   lines:
-  - speakerName: 
-    text: 
-  - speakerName: ???
-    text: "L\xE0 l\xE1 la la"
-  - speakerName: ???
-    text: "N\xE0 n\xE1 na na"
   - speakerName: "Tr\u1ECDng"
-    text: "(\u1EDE b\xEAn kia h\xECnh nh\u01B0 c\xF3 ai \u0111\xF3 th\xEC ph\u1EA3i
-      )"
+    text: ...
+    portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
-    text: "Ch\u1EBFt ti\u1EC7t m\xECnh ko l\u1EBD c\u1EE9 th\u1EBF \u0111\u1EBFn
-      b\u1EAFt chuy\u1EC7n sao."
+    text: "\xD4i c\xE1i Discord mess."
+    portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
-    text: "\u0110i\u1EC1u n\xE0y qu\xE1 kh\xF3 v\u1EDBi trung b\xECnh sv UIT"
-  - speakerName: ???
-    text: "K\u1EBB n\xE0o \u0111\xF3!?!?"
+    text: "B\u1ECDn n\xF3 ki\u1EC3u j c\u0169ng quay m\xECnh xong h\u1EA5p th\u1EE5
+      ma l\u1EF1c c\u1EE7a m\xECnh."
+    portrait: {fileID: 0}
+  - speakerName: "Tr\u1ECDng"
+    text: "Th\xF4i c\u1EE9 c\u1EAFt du\xF4i \u1EA3 ta tr\u01B0\u1EDBc r\u1ED3i t\xEDnh
+      ti\u1EBFp v\xE2yj"
+    portrait: {fileID: 0}
   choices: []
   autoContinueNode: {fileID: 0}
   onEnter:

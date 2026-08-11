@@ -13,26 +13,35 @@ MonoBehaviour:
   m_Name: dia-01
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   defaultSpeakerName: 
+  defaultSpeakerPortrait: {fileID: 8450617891289647664, guid: 0787d78164ac3f84c95b6a63ef5387c6, type: 3}
   lines:
   - speakerName: 
     text: ...
+    portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
     text: "\u01AF \u01B0."
+    portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
     text: "\u0110au qu\xE1."
+    portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng "
     text: "\u0110\xE2y l\xE0 n\u01A1i qu\xE1i n\xE0o v\u1EADy."
+    portrait: {fileID: -3637415787416595814, guid: c11520c809d13a843b51ec0a0ae15cf4, type: 3}
   - speakerName: "Tr\u1ECDng"
     text: "M\xECnh \u0111\xE3 tr\xEAn \u0111\u01B0\u1EDDng..."
+    portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
     text: "Ahh \u0111au \u0111\u1EA7u qu\xE1, ch\u1EB3ng nh\u1EDB \u0111\u01B0\u1EE3c
       g\xEC c\u1EA3."
+    portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
     text: "R\u1ED1t cu\u1ED9c \u0111\xE2y l\xE0 n\u01A1i n\xE0o."
+    portrait: {fileID: -3637415787416595814, guid: c11520c809d13a843b51ec0a0ae15cf4, type: 3}
   - speakerName: 
     text: "(B\u1EA1n \u0111\xE3 b\u1ECB d\u1ECBch chuy\u1EC3n \u0111\u1EBFn 1 th\u1EBF
       gi\u1EDBi m\xE0 ch\xEDnh b\u1EA3n th\xE2n ban c\xF2n ch\u1EB3ng bi\u1EBFt.
       Good luck :)) )"
+    portrait: {fileID: 0}
   choices: []
   autoContinueNode: {fileID: 0}
   onEnter:
