@@ -16,6 +16,8 @@ public class DialogueManager : MonoBehaviour
     public GameObject dialoguePanel;
     public TMP_Text speakerNameText;
     public TMP_Text dialogueText;
+    [Tooltip("Component Image dùng để hiện ảnh chân dung người nói. Có thể để trống nếu không dùng portrait.")]
+    public Image speakerPortraitImage;
     [Tooltip("Transform cha chứa các nút lựa chọn được sinh ra động (nên có Vertical Layout Group)")]
     public Transform choicesContainer;
     [Tooltip("Prefab 1 nút lựa chọn (Button + TMP_Text con), kéo prefab từ Project window vào đây")]
@@ -28,6 +30,9 @@ public class DialogueManager : MonoBehaviour
     public bool pauseGameDuringDialogue = true;
     [Tooltip("Phím dùng để chuyển sang node tiếp theo khi node hiện tại không có lựa chọn")]
     public KeyCode continueKey = KeyCode.E;
+    [Tooltip("Tự ẩn speakerPortraitImage khi câu thoại hiện tại không có portrait nào (cả line lẫn node đều trống). " +
+             "Nếu tắt, ảnh cũ sẽ được giữ nguyên trên UI thay vì ẩn đi.")]
+    public bool hidePortraitWhenEmpty = true;
 
     private DialogueNode currentNode;
     private int currentLineIndex;
@@ -124,6 +129,12 @@ public class DialogueManager : MonoBehaviour
             : currentNode.defaultSpeakerName;
         if (speakerNameText != null) speakerNameText.text = speaker;
 
+        // Ưu tiên portrait riêng của câu thoại; nếu để trống thì dùng defaultSpeakerPortrait của node
+        Sprite portrait = (currentLine != null && currentLine.portrait != null)
+            ? currentLine.portrait
+            : currentNode.defaultSpeakerPortrait;
+        UpdatePortrait(portrait);
+
         string line = (currentLine != null) ? currentLine.text : string.Empty;
         if (dialogueText != null) dialogueText.text = line;
 
@@ -158,6 +169,23 @@ public class DialogueManager : MonoBehaviour
                 LayoutRebuilder.ForceRebuildLayoutImmediate(choicesContainer as RectTransform);
             }
         }
+    }
+
+    /// <summary>Cập nhật ảnh chân dung người nói. Ẩn/giữ Image tuỳ theo hidePortraitWhenEmpty
+    /// khi câu thoại hiện tại không có portrait nào (cả line lẫn node đều để trống).</summary>
+    private void UpdatePortrait(Sprite portrait)
+    {
+        if (speakerPortraitImage == null) return;
+
+        if (portrait == null)
+        {
+            if (hidePortraitWhenEmpty) speakerPortraitImage.gameObject.SetActive(false);
+            else speakerPortraitImage.sprite = null;
+            return;
+        }
+
+        speakerPortraitImage.gameObject.SetActive(true);
+        speakerPortraitImage.sprite = portrait;
     }
 
     /// <summary>Số câu thoại thực tế của 1 node (tối thiểu 1, phòng trường hợp lines để trống).</summary>
@@ -255,6 +283,7 @@ public class DialogueManager : MonoBehaviour
 
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
         if (continuePrompt != null) continuePrompt.SetActive(false);
+        if (speakerPortraitImage != null) speakerPortraitImage.gameObject.SetActive(false);
 
         if (pauseGameDuringDialogue)
         {

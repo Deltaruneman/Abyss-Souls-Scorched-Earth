@@ -16,6 +16,11 @@ public class DialogueNode : ScriptableObject
              "không tự đặt speakerName riêng. Để trống nếu mỗi câu đều tự set tên riêng.")]
     public string defaultSpeakerName;
 
+    [Tooltip("Ảnh chân dung MẶC ĐỊNH cho cả node. Dùng làm fallback cho các câu (DialogueLine) " +
+             "không tự đặt portrait riêng. Để trống nếu mỗi câu đều tự set ảnh riêng, " +
+             "hoặc node này không cần hiện portrait.")]
+    public Sprite defaultSpeakerPortrait;
+
     [Tooltip("Các câu thoại hiển thị LẦN LƯỢT trong node này (bấm phím tiếp tục để chuyển câu). " +
              "Mỗi câu có thể tự đặt tên người nói riêng (để trống thì dùng defaultSpeakerName ở trên). " +
              "Lựa chọn/autoContinueNode chỉ xuất hiện sau khi đã hiện xong câu cuối cùng trong list này.")]

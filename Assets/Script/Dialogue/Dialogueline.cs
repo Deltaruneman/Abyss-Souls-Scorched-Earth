@@ -14,4 +14,8 @@ public class DialogueLine
     [Tooltip("Nội dung câu thoại")]
     [TextArea(2, 4)]
     public string text;
+
+    [Tooltip("Ảnh chân dung người nói câu này. Để trống nếu muốn dùng defaultSpeakerPortrait của Node " +
+             "(người nói không đổi), hoặc để trống cả 2 nếu không cần hiện portrait.")]
+    public Sprite portrait;
 }

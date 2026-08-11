@@ -44,11 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2498b341cb59774abf26743ff1d0470, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueManager
-  dialoguePanel: {fileID: 8038007016871728005, guid: 83915c3613e8a8341b61c8b93e4c64e6, type: 3}
-  speakerNameText: {fileID: 4499117937923838438, guid: 596adef5f11f8414eac977705e2a14b3, type: 3}
-  dialogueText: {fileID: 4034289155308801897, guid: 98050314b8dfc3347ae5e90952502a21, type: 3}
-  choicesContainer: {fileID: 50629488459383588, guid: ac1902fe30d13f848a23c70579e045db, type: 3}
-  choiceButtonPrefab: {fileID: 5929205797129867480, guid: 64cb8358ded1d4a43803619d40f3ce3f, type: 3}
-  continuePrompt: {fileID: 4815773020646061523, guid: 2db634d7bf31f1042ab07f0fbe6d59ed, type: 3}
+  dialoguePanel: {fileID: 0}
+  speakerNameText: {fileID: 0}
+  dialogueText: {fileID: 0}
+  speakerPortraitImage: {fileID: 0}
+  choicesContainer: {fileID: 0}
+  choiceButtonPrefab: {fileID: 0}
+  continuePrompt: {fileID: 0}
   pauseGameDuringDialogue: 1
-  continueKey: 101
+  continueKey: 106
+  hidePortraitWhenEmpty: 1
