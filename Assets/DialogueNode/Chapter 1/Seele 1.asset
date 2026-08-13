@@ -13,21 +13,29 @@ MonoBehaviour:
   m_Name: Seele 1
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   defaultSpeakerName: 
+  defaultSpeakerPortrait: {fileID: 0}
   lines:
   - speakerName: Seele
     text: Ahhhh
+    portrait: {fileID: -1101880079801911554, guid: 78ee931bca20635448dee17ee4a2b466, type: 3}
   - speakerName: Seele
     text: "Ng\u01B0\u01A1i c\xF3 h\xECnh d\u1EA1ng... A.. Abyss..."
+    portrait: {fileID: 8913381867424374697, guid: 3f4c75bd34d95b0488fea6b3d8d5d505, type: 3}
   - speakerName: "Tr\u1ECDng "
     text: "\u0110i\u1EC1u n\xE0y k\xEC l\u1EA1 l\u1EAFm sao?"
+    portrait: {fileID: -3637415787416595814, guid: c11520c809d13a843b51ec0a0ae15cf4, type: 3}
   - speakerName: Seele
     text: ...
+    portrait: {fileID: 0}
   - speakerName: Seele
     text: "Ng\u01B0\u01A1i c\xF3 th\u1EC3 n\xF3i chuy\u1EC7n."
+    portrait: {fileID: -1101880079801911554, guid: 78ee931bca20635448dee17ee4a2b466, type: 3}
   - speakerName: Seele
     text: "Ng\u01B0\u01A1i ko ph\u1EA3i \" The Abyss One\"."
+    portrait: {fileID: -6885905248504999547, guid: 24ae113b913d8fd49b0c919264359eba, type: 3}
   - speakerName: Seele
     text: "R\u1ED1t cu\u1ED9c ng\u01B0\u01A1i l\xE0 k\u1EBB n\xE0o"
+    portrait: {fileID: -6885905248504999547, guid: 24ae113b913d8fd49b0c919264359eba, type: 3}
   choices:
   - choiceText: "Con ng\u01B0\u1EDDi"
     nextNode: {fileID: 11400000, guid: 600009a156cb6984086c237f7f5d217a, type: 2}

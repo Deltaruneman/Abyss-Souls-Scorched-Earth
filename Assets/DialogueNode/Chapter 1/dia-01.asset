@@ -23,7 +23,7 @@ MonoBehaviour:
     portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
     text: "\u0110au qu\xE1."
-    portrait: {fileID: 0}
+    portrait: {fileID: -449018876766531056, guid: 9a8965628d3281640a5cecc7212786b1, type: 3}
   - speakerName: "Tr\u1ECDng "
     text: "\u0110\xE2y l\xE0 n\u01A1i qu\xE1i n\xE0o v\u1EADy."
     portrait: {fileID: -3637415787416595814, guid: c11520c809d13a843b51ec0a0ae15cf4, type: 3}
