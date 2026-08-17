@@ -19,51 +19,18 @@ MonoBehaviour:
     text: ...
     portrait: {fileID: 0}
   - speakerName: Seele
-    text: "Ng\u01B0\u01A1i kh\xF4ng h\u1EC1 bi\u1EBFt g\xEC \u01B0..."
+    text: "\xC0 ph\u1EA3i nhi k\u1EBB \u0111\xF3 c\xF3 th\u1EC3 t\u1EF1 do ra v\xE0o
+      th\xEC sao l\u1EA1i \u0111\u1EC3 b\u1ECB b\u1EAFt."
     portrait: {fileID: 0}
   - speakerName: Seele
-    text: ...
+    text: "M\xECnh c\xF2n ch\u01B0a d\xF9ng m\xE0 l\u1EF1c tr\xF3i bu\u1ED9c m\xE0."
     portrait: {fileID: 0}
   - speakerName: Seele
     text: .............
     portrait: {fileID: 0}
   - speakerName: Seele
-    text: "Kh\xF4ng bi\u1EBFt kh\xF4ng c\xF3 ngh\u0129a l\xE0 kh\xF4ng c\xF3 t\u1ED9i."
-    portrait: {fileID: 0}
-  - speakerName: "Tr\u1ECDng"
-    text: "T\xF4i hi\u1EC3u..."
-    portrait: {fileID: 0}
-  - speakerName: "Tr\u1ECDng"
-    text: "Li\u1EC7u c\xF4 c\xF3 th\u1EC3 k\u1EC3 cho t\xF4i m\u1ECDi th\u1EE9 kh\xF4ng?"
-    portrait: {fileID: 0}
-  - speakerName: Seele
-    text: Haizz...
-    portrait: {fileID: 0}
-  - speakerName: Seele
-    text: "C\xF3 l\u1EBD th\u1EDDi gian \u0111\xE3 tr\u1EA3i qua qu\xE1 l\xE2u r\u1ED3i."
-    portrait: {fileID: 0}
-  - speakerName: Seele
-    text: "\u0110\u1EBFn m\u1EE9c m\xE0 ta kh\xF4ng th\u1EC3 c\u1EA3m nh\u1EADn \u0111\u01B0\u1EE3c
-      n\u1EEFa."
-    portrait: {fileID: 0}
-  - speakerName: Seele
-    text: "Ch\xFAng ta, c\xE1c Magician."
-    portrait: {fileID: 0}
-  - speakerName: Seele
-    text: "Ch\xFAng ta, \u0111\xE3 \u0111\u1ED3ng h\xE0nh c\xF9ng con ng\u01B0\u1EDDi
-      c\xE1c ng\u01B0\u01A1i \u0111\u1EC3 tr\u1EA5n \xE1p Abyss. "
-    portrait: {fileID: 0}
-  - speakerName: Seele
-    text: "Abyss l\xE0 ...."
-    portrait: {fileID: 0}
-  - speakerName: Seele
-    text: "Ta c\u0169ng kh\xF4ng r\xF5, linh h\u1ED3n, kh\u1EA3i ni\u1EC7m,...?"
-    portrait: {fileID: 0}
-  - speakerName: Seele
-    text: "Nh\u01B0ng ch\xFAng ta bi\u1EBFt n\xF3 c\xF3 \xFD ch\xED ri\xEAng."
-    portrait: {fileID: 0}
-  - speakerName: Seele
-    text: "V\xE0 n\xF3 kh\xF4ng mu\u1ED1n ch\xFAng ta t\u1ED3n t\u1EA1i."
+    text: "V\u1EADy ng\u01B0\u01A1i kh\xF4ng ph\u1EA3i l\xE0 k\u1EBB \u0111\xF3 \u01B0
+      ???"
     portrait: {fileID: 0}
   choices: []
   autoContinueNode: {fileID: 0}

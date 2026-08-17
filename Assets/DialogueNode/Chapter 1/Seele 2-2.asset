@@ -13,33 +13,40 @@ MonoBehaviour:
   m_Name: Seele 2-2
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   defaultSpeakerName: 
+  defaultSpeakerPortrait: {fileID: 0}
   lines:
   - speakerName: Seele
-    text: "N\xE0y sao l\u1EA1i im l\u1EB7ng v\xE2... Ch\u1EDD \u0111\xE3 kh\xF4ng
-      l\u1EBD n\xE0o.."
+    text: "N\xE0y sao l\u1EA1i im l\u1EB7ng v\xE2... "
+    portrait: {fileID: 0}
   - speakerName: 'Seele '
-    text: "Con ng\u01B0\u1EDDi?!?! Ch\xFAng \u0111\xE1ng ra kh\xF4ng th\u1EC3 xu\u1EA5t
-      hi\u1EC7n \u1EDF \u0111\xE2y."
+    text: "Hmmm tr\u1EF1c gi\xE1c c\u1EE7a ta m\xE1ch b\u1EA3o ng\u01B0\u01A1i \u0111ang
+      gi\u1EA3 ngu."
+    portrait: {fileID: 0}
   - speakerName: 'Seele '
-    text: "Con ng\u01B0\u1EDDi ch\u1EBFt ti\u1EC7t, sao ng\u01B0\u01A1i d\xE1m b\xE9n
-      m\u1EA3ng \u0111\u1EBFn \u0111\xE2y."
-  - speakerName: "Tr\u1ECDng (k\u1EBB ch\u1EBFt ti\u1EC7t)"
+    text: "Sau t\u1EA5t c\u1EA3 nh\u1EEFng g\xEC \u0111\xE3 g\xE2y ra th\xEC"
+    portrait: {fileID: 0}
+  - speakerName: "Tr\u1ECDng "
     text: "Ch\u1EDD \u0111\xE3 n\xE0o, t\xF4i kh\xF4ng hi\u1EC3u c\xF4 mu\u1ED1n
       n\xF3i g\xEC c\u1EA3?!?"
+    portrait: {fileID: 0}
   - speakerName: Seele
-    text: "Ch\u1EB3ng ph\u1EA3i ch\xEDnh lo\xE0i ng\u01B0\u1EDDi c\xE1c ng\u01B0\u01A1i
-      \u0111\xE3 giam c\u1EA7m b\u1ECDn ta t\u1EA1i \u0111\xE2y sao??"
+    text: "Ng\u01B0\u01A1i ch\xEDnh l\xE0 k\u1EBB \u0111\xE3 \u0111\u1EBFn\" Souls
+      World\" m\u1EA5y h\xF4m nay"
+    portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng (k\u1EBB ch\u1EBFt ti\u1EC7t b\u1ED1i r\u1ED1i)"
-    text: "Khoan \u0111\xE3, giam c\u1EA7m g\xEC c\u01A1."
+    text: "Khoan \u0111\xE3, c\xE1i g\xEC c\u01A1??"
+    portrait: {fileID: 0}
   - speakerName: Seele
-    text: "Ch\xEDnh c\xE1c ng\u01B0\u01A1i l\xE0 k\u1EBB \u0111\xE3 l\u1EEBa b\u1ECDn
-      ta v\xE0 phong \u1EA5n ch\xFAng ta t\u1EA1i \"Souls World\" kh\xF4ng ph\u1EA3i
-      sao??"
+    text: "Ranh gi\u1EDBi c\u1EE7a ng\u01B0\u1EDDi ch\u1EBFt v\xE0 k\u1EBB s\u1ED1ng
+      l\xE0 kh\xF4ng th\u1EC3 x\xE2m ph\u1EA1m"
+    portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
     text: "?!?? ( C\xF4 ta \u0111ang n\xF3i g\xEC v\u1EADy, m\xECnh ch\u1EB3ng hi\u1EC3u
       g\xEC c\u1EA3)"
+    portrait: {fileID: 0}
   - speakerName: Seele
-    text: "Bi\u1EBFn \u0111i t\xEAn con ng\u01B0\u1EDDi ch\u1EBFt ti\u1EC7t."
+    text: "Ta s\u1EBD \u0111\u1EABn ng\u01B0\u01A1i \u0111i x\xE9t s\u1EED."
+    portrait: {fileID: 0}
   choices: []
   autoContinueNode: {fileID: 0}
   onEnter:

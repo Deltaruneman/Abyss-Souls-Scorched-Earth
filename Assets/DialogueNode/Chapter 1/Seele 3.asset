@@ -13,25 +13,34 @@ MonoBehaviour:
   m_Name: Seele 3
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   defaultSpeakerName: 
+  defaultSpeakerPortrait: {fileID: 0}
   lines:
   - speakerName: Seele
-    text: "N\xE0y ng\u01B0\u01A1i \u0111ang b\xE1m theo ta \u0111\u1EA5y \xE0"
+    text: "V\xEC sao ng\u01B0\u01A1i l\u1EA1i \u0111\u1EBFn n\u01A1i n\xE0y?"
+    portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
-    text: "\u1EDC.. th\xEC \u0111\xF3 d\u01B0\u1EDDng nh\u01B0 l\xE0 \u0111i\u1EC1u
-      duy nh\u1EA5t t\xF4i c\xF3 th\u1EC3 l\xE0m"
+    text: "T\xF4i b\u1ED7ng nhi\xEAn b\u1ECB d\u1ECBch chuy\u1EC3n \u0111\u1EBFn
+      \u0111\xE2y."
+    portrait: {fileID: 0}
   - speakerName: Seele
-    text: "M\xE0 ph\u1EA3i r\u1ED3i l\xE0m sao ng\u01B0\u01A1i \u0111\u1EBFn \u0111\u01B0\u1EE3c
-      \u0111\xE2y v\u1EADy,"
+    text: "Ng\u1EABu nhi\xEAn \u01B0?? Ng\u01B0\u01A1i \u0111\xE3 \u0111\u1EBFn d\xE2y
+      r\u1EA5t nhi\u1EC1u l\u1EA7n, ng\u01B0oi g\xE2y r\u1ED1i \u0111\u1EBFn \"Souls
+      World\" v\xE0 g\xE2y \u1EA3nh h\u01B0\u1EDFng t\u1EDBi c\xE1c linh h\u1ED3n
+      kh\xE1c."
+    portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
-    text: "T\xF4i c\u0169ng \u0111ang th\u1EAFc m\u1EAFc \u0111\xE2y."
+    text: "T\xF4i kh\xF4ng c\xF3 m\xE0!!"
+    portrait: {fileID: 0}
   - speakerName: Seele
-    text: "C\u0169ng ch\u1EB3ng ph\u1EA3i chuy\u1EC7n c\u1EE7a ta, ta s\u1EBD t\xECm
-      ng\u01B0\u1EDDi \u0111\u1EBFn b\u1EAFt ng\u01B0\u01A1i."
+    text: "Sybau, con ng\u01B0\u1EDDi gi\u1EA3 d\u1ED1i c\xE1c ng\u01B0\u01A1i \u0111\u1EBFn
+      \u0111\xE2y v\u1EDBi m\u1EE5c \u0111\xEDch g\xEC??"
+    portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
-    text: "T\xF4i c\xF3 th\u1EC3 \u0111i c\xF9ng c\xF4"
+    text: .....
+    portrait: {fileID: 0}
   - speakerName: Seele
-    text: "?? Ng\u01B0\u01A1i mu\u1ED1n b\u1ECB b\u1EAFt \u0111\u1EBFn v\u1EADy \xE0
-      \u0111\u1ED3 con ng\u01B0\u1EDDi ch\u1EBFt ti\u1EC7t??"
+    text: "Tr\u1EA3 l\u1EDDi \u0111i."
+    portrait: {fileID: 0}
   choices:
   - choiceText: ....
     nextNode: {fileID: 0}

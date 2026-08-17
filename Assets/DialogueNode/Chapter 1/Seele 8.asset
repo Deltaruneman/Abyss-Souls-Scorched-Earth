@@ -13,18 +13,15 @@ MonoBehaviour:
   m_Name: Seele 8
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   defaultSpeakerName: 
+  defaultSpeakerPortrait: {fileID: 0}
   lines:
   - speakerName: Seele
-    text: "D\xF9 v\u1EADy nh\u01B0ng..."
+    text: ".. Ng\u01B0\u01A1i bi\xEAt \u0111\u1EA5y."
+    portrait: {fileID: 0}
   - speakerName: Seele
-    text: "Th\u1EADt l\xF2ng ta c\u0169ng kh\xF4ng mu\u1ED1n.."
-  - speakerName: Seele
-    text: "Ng\u01B0\u01A1i bi\u1EBFt \u0111\u1EA5y..."
-  - speakerName: "Tr\u1ECDng"
-    text: "Gi\u1EBFt t\xF4i kh\xF4ng mang l\u1EA1i k\u1EBFt qu\u1EA3 g\xEC \u0111\xFAng
-      ch\u1EE9."
-  - speakerName: Seele
-    text: ...
+    text: "Ng\u01B0\u01A1i \u0111\u1EBFn \u0111\xE2y l\xE0 \u0111\xE3 kh\xF4ng \u0111\xFAng
+      quy t\u1EAFt r\u1ED3i"
+    portrait: {fileID: 0}
   choices: []
   autoContinueNode: {fileID: 0}
   onEnter:

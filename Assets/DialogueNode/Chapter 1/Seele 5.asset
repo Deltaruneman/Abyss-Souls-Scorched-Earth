@@ -19,9 +19,6 @@ MonoBehaviour:
     text: "N\xE0y nhanh l\xEAn \u0111i ch\u1EE9."
     portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
-    text: "T\xF4i kh\xF4ng th\u1EC3 bay nh\u01B0 c\xF4 \u0111\xE2u."
-    portrait: {fileID: 0}
-  - speakerName: "Tr\u1ECDng"
     text: "(m\xE0 ngh\u0129 l\u1EA1i th\xEC v\xEC sao c\xF4 ta l\u1EA1i mang h\xECnh
       d\u1EA1ng nh\u01B0 n\xE0y nh\u1EC9)"
     portrait: {fileID: 0}
@@ -34,33 +31,34 @@ MonoBehaviour:
       g\xEC t\u1EC7 h\u01A1n x\u1EA3y ra \u0111\u01B0\u1EE3c n\u1EEFa nh\u1EC9?)"
     portrait: {fileID: 0}
   - speakerName: Seele
-    text: "Ban \u0111\u1EA7u ta c\u0169ng t\u1EEBng c\xF3 c\u01A1 th\u1EC3 nh\u01B0
-      ng\u01B0\u1EDDi v\u1EADy"
+    text: "N\xE0y b\u1EDBt suy ngh\u0129 trong \u0111\u1EA7u l\u1EA1i m\xE0 \u0111i
+      ti\u1EBFp \u0111i"
+    portrait: {fileID: 0}
+  - speakerName: "Tr\u1ECDng "
+    text: "Sao c\xF4 ta bi\u1EBFt \u0111\u01B0\u1EE3c..."
+    portrait: {fileID: 0}
+  - speakerName: Seele
+    text: "\u0110ang t\xF2 m\xF2 v\xEC sao ta bi\u1EBFt \u0111\xFAng kh\xF4ng :))"
+    portrait: {fileID: 0}
+  - speakerName: Seele
+    text: "Ta c\xF3 th\u1EC3 c\u1EA3m nh\u1EADn \u0111\u01B0\u1EE3c qua ma l\u1EF1c."
+    portrait: {fileID: 0}
+  - speakerName: Seele
+    text: "Tuy kh\xF4ng th\u1EC3 bi\u1EBFt ng\u01B0\u01A1i \u0111ang ngh\u0129 g\xEC
+      nh\u01B0ng c\xF3 th\u1EC3 c\u1EA3m nh\u1EADn ng\u01B0\u01A1i \u0111ang ngh\u0129."
     portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
-    text: "?!?! \xDD c\xF4 l\xE0 sao c\u01A1.?"
+    text: "Gi\u1ED1ng nh\u01B0 c\u1EA3m nh\u1EADn \u0111\u01B0\u1EE3c ma l\u1EF1c
+      \u01B0"
     portrait: {fileID: 0}
   - speakerName: Seele
-    text: "D\u01B0\u1EDBi \u1EA3nh h\u01B0\u1EDFng c\u1EE7a \"Souls World\" c\u01A1
-      th\u1EC3 b\u1ECDn ta kh\xF4ng c\xF2n gi\u1EEF \u0111\u01B0\u1EE3c c\u1EA5u
-      tr\xFAc v\u1ED1n c\xF3."
-    portrait: {fileID: 0}
-  - speakerName: Seele
-    text: "Gi\u1EDD ta ch\u1EC9 c\xF2n linh h\u1ED3n v\xE0 ma l\u1EF1c th\xF4i."
-    portrait: {fileID: 0}
-  - speakerName: Seele
-    text: "D\u0129 nhi\xEAn s\u1EED d\u1EE5ng ma l\u1EF1c s\u1EBD khi\u1EBFn linh
-      h\u1ED3n ta y\u1EBFu \u0111i."
-    portrait: {fileID: 0}
-  - speakerName: Seele
-    text: "\u0110\xF3 l\xE0 l\xED do ta kh\xF4ng gi\u1EBFt ng\u01B0\u01A1i ngay t\u1EEB
-      \u0111\u1EA7u \u0111\u1EA5y."
+    text: "\u1EEA ki\u1EC3u v\u1EADy.... Khoan sao ng\u01B0\u01A1i bi\u1EBFt"
     portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
-    text: "Ch\u1EDD \u0111\xE3 n\xE0o..."
+    text: "\u0110o\xE1n b\u1EEBa th\xF4i."
     portrait: {fileID: 0}
   choices:
-  - choiceText: "H\u1ECFi qu\xE1 kh\u1EE9"
+  - choiceText: "L\xE0m \u01A1n cho t\xF4i tho\xE1t kh\u1ECFi \u0111\xE2y!"
     nextNode: {fileID: 11400000, guid: 1c66aa9a3926c8849854e36fd00ed5bc, type: 2}
   - choiceText: ...
     nextNode: {fileID: 0}

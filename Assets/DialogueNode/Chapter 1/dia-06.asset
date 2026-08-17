@@ -10,30 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6aee07975a450b445a8cb8f743cb0138, type: 3}
-  m_Name: Seele 9
+  m_Name: dia-06
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   defaultSpeakerName: 
   defaultSpeakerPortrait: {fileID: 0}
   lines:
-  - speakerName: Seele
-    text: Hmmm
+  - speakerName: "Tr\u1ECDng"
+    text: Uhh uhh
     portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
-    text: "Sao v\u1EADy?"
-    portrait: {fileID: 0}
-  - speakerName: Seele
-    text: "C\xF3 ch\xFAt chuy\u1EC7n ta c\u1EA7n suy ngh\u0129 l\u1EA1i c\xE1i \u0111\xE3."
+    text: "M\xECnh r\u01A1i 2 l\u1EA7n trong c\xF9ng 1 ng\xE0y"
     portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
-    text: "\xDD c\xF4 l\xE0 sao"
+    text: "Qu\xE1 t\xE0y r\u1ED3i"
     portrait: {fileID: 0}
-  - speakerName: Seele
-    text: "Ta ngh\u0129 l\xE0 vi\u1EC7c con ng\u01B0\u1EDDi \u0111\u1EBFn \u0111\u01B0\u1EE3c
-      \u0111\xE2y l\xE0 b\u1EA5t kh\u1EA3 thi, nh\u01B0ng k\u1EBB kia v\xE0 ng\u01B0\u01A1i
-      l\u1EA1i l\xE0m \u0111\u01B0\u1EE3c. "
+  - speakerName: "Tr\u1ECDng"
+    text: "Nh\u01B0ng m\xE0"
     portrait: {fileID: 0}
-  - speakerName: Seele
-    text: "\u0110i\u1EC1u n\xE0y v\u1ED1n \u0111\xE3 kh\xF4ng h\u1EC1 t\u1EF1 nhi\xEAn."
+  - speakerName: "Tr\u1ECDng"
+    text: "Kh\xF4ng h\u1EC1 c\xF3 c\u1EA3m gi\xE1c \u0111au trong c\u1EA3 2 l\u1EA7n."
+    portrait: {fileID: 0}
+  - speakerName: "Tr\u1ECDng"
+    text: "C\xF3 th\u1EC3 ch\u1EC9 c\xF3 ph\u1EA7n linh h\u1ED3n l\xE0 t\u1ED3n t\u1EA1i
+      trong th\u1EBF gi\u1EDBi n\xE0y "
+    portrait: {fileID: 0}
+  - speakerName: "Tr\u1ECDng"
+    text: "Qu\xE1 \u0111\u1ED7i k\xECa l\u1EA1 r\u1ED3i."
     portrait: {fileID: 0}
   choices: []
   autoContinueNode: {fileID: 0}

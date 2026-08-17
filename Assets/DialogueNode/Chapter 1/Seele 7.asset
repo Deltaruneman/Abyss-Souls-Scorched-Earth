@@ -13,27 +13,22 @@ MonoBehaviour:
   m_Name: Seele 7
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   defaultSpeakerName: 
+  defaultSpeakerPortrait: {fileID: 0}
   lines:
+  - speakerName: "Tr\u1ECDng"
+    text: "Kh\xE1 ch\u1EAFc l\xE0 t\xF4i c\xF3 n\xF3i v\u1EC1 \u0111i\u1EC1u \u0111\xF3
+      r\u1ED3i"
+    portrait: {fileID: 0}
   - speakerName: Seele
-    text: "B\u1ECDn ta \u0111\xE3 t\u1EEBng \u0111\u1ED3ng l\xF2ng,"
+    text: "\u1EEA th\xEC sao."
+    portrait: {fileID: 0}
   - speakerName: Seele
-    text: "\u0110\xE3 t\u1EEBng coi nhau nhu ng\u01B0\u1EDDi nh\xE0."
-  - speakerName: Seele
-    text: "Trong cu\u1ED9c chi\u1EBFn \u0111\xF3 c\xF3 qu\xE1 nhi\u1EC1u m\u1EA5t
-      m\xE1t."
-  - speakerName: Seele
-    text: "Nhi\u1EC1u \u0111\u1EBFn m\u1EE9c ta kh\xF4ng th\u1EC3 hi\u1EC3u \u0111\u01B0\u1EE3c
-      v\xEC sao h\u1ECD l\u1EA1i ph\u1EA3n b\u1ED9i."
-  - speakerName: Seele
-    text: "Khi cu\u1ED9c hi\u1EBFn g\u1EA7n ng\xE3 ng\u1EE7,"
-  - speakerName: Seele
-    text: "V\xE0o ph\xFAt then ch\u1ED1t phong \u1EA5n Abyss v\xE0o \"Souls World\",
-      con ng\u01B0\u1EDDi \u0111\xE3 lao l\xEAn t\xE0n s\xE1t c\xE1c Magician kh\xE1c."
-  - speakerName: Seele
-    text: "B\u1ECDn ta \u0111\xE3 qu\xE1 s\u1EE3 h\xE3i n\xEAn \u0111\xE3 tr\u1EF1c
-      ti\u1EBFp nh\u1EA3y v\xE0o c\xE1nh c\u1ED5ng."
-  - speakerName: Seele
-    text: "V\xE0 k\u1EBFt qu\u1EA3 l\xE0 b\u1ECB m\u1EAFc k\u1EB9t t\u1EA1i \u0111\xE2y"
+    text: "D\xF9 g\xEC ng\u01B0\u01A1i c\u0169ng l\xE0 k\u1EBB x\xE2m nh\u1EADp n\xEAn
+      ta s\u1EBD \xE1p gi\u1EA3i ng\u01B0\u01A1i th\xF4i"
+    portrait: {fileID: 0}
+  - speakerName: "Tr\u1ECDng"
+    text: ....
+    portrait: {fileID: 0}
   choices: []
   autoContinueNode: {fileID: 0}
   onEnter:
