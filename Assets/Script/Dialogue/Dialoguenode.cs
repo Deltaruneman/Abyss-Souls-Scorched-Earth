@@ -21,6 +21,11 @@ public class DialogueNode : ScriptableObject
              "hoặc node này không cần hiện portrait.")]
     public Sprite defaultSpeakerPortrait;
 
+    [Tooltip("Ảnh nền (background) hiện ra khi node này được hiển thị. Tùy chọn - để trống nếu " +
+             "không muốn đổi ảnh nền tại node này (giữ nguyên ảnh nền của node trước đó, hoặc ẩn đi " +
+             "tùy theo setting hideBackgroundWhenEmpty ở DialogueManager).")]
+    public Sprite backgroundImage;
+
     [Tooltip("Các câu thoại hiển thị LẦN LƯỢT trong node này (bấm phím tiếp tục để chuyển câu). " +
              "Mỗi câu có thể tự đặt tên người nói riêng (để trống thì dùng defaultSpeakerName ở trên). " +
              "Lựa chọn/autoContinueNode chỉ xuất hiện sau khi đã hiện xong câu cuối cùng trong list này.")]

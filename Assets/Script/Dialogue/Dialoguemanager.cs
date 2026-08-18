@@ -18,6 +18,9 @@ public class DialogueManager : MonoBehaviour
     public TMP_Text dialogueText;
     [Tooltip("Component Image dùng để hiện ảnh chân dung người nói. Có thể để trống nếu không dùng portrait.")]
     public Image speakerPortraitImage;
+    [Tooltip("Component Image (nên đặt full-screen, phía sau dialoguePanel) dùng để hiện ảnh nền của node. " +
+             "Có thể để trống nếu không dùng background.")]
+    public Image backgroundImage;
     [Tooltip("Transform cha chứa các nút lựa chọn được sinh ra động (nên có Vertical Layout Group)")]
     public Transform choicesContainer;
     [Tooltip("Prefab 1 nút lựa chọn (Button + TMP_Text con), kéo prefab từ Project window vào đây")]
@@ -33,6 +36,10 @@ public class DialogueManager : MonoBehaviour
     [Tooltip("Tự ẩn speakerPortraitImage khi câu thoại hiện tại không có portrait nào (cả line lẫn node đều trống). " +
              "Nếu tắt, ảnh cũ sẽ được giữ nguyên trên UI thay vì ẩn đi.")]
     public bool hidePortraitWhenEmpty = true;
+    [Tooltip("Tự ẩn backgroundImage khi node hiện tại không đặt backgroundImage. " +
+             "Nếu tắt (khuyên dùng khi các node dùng chung 1 bối cảnh), ảnh nền cũ sẽ được giữ nguyên " +
+             "thay vì ẩn/mất đi mỗi khi gặp node không có ảnh nền riêng.")]
+    public bool hideBackgroundWhenEmpty = false;
 
     private DialogueNode currentNode;
     private int currentLineIndex;
@@ -109,6 +116,7 @@ public class DialogueManager : MonoBehaviour
     {
         currentNode = node;
         currentLineIndex = 0;
+        UpdateBackground(node.backgroundImage);
         DisplayCurrentLine();
     }
 
@@ -186,6 +194,23 @@ public class DialogueManager : MonoBehaviour
 
         speakerPortraitImage.gameObject.SetActive(true);
         speakerPortraitImage.sprite = portrait;
+    }
+
+    /// <summary>Cập nhật ảnh nền theo node hiện tại. Ẩn/giữ Image tuỳ theo hideBackgroundWhenEmpty
+    /// khi node không đặt backgroundImage riêng.</summary>
+    private void UpdateBackground(Sprite background)
+    {
+        if (backgroundImage == null) return;
+
+        if (background == null)
+        {
+            if (hideBackgroundWhenEmpty) backgroundImage.gameObject.SetActive(false);
+            // Nếu tắt hideBackgroundWhenEmpty thì giữ nguyên ảnh nền hiện tại trên UI (không đổi gì cả)
+            return;
+        }
+
+        backgroundImage.gameObject.SetActive(true);
+        backgroundImage.sprite = background;
     }
 
     /// <summary>Số câu thoại thực tế của 1 node (tối thiểu 1, phòng trường hợp lines để trống).</summary>
@@ -284,6 +309,7 @@ public class DialogueManager : MonoBehaviour
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
         if (continuePrompt != null) continuePrompt.SetActive(false);
         if (speakerPortraitImage != null) speakerPortraitImage.gameObject.SetActive(false);
+        if (backgroundImage != null) backgroundImage.gameObject.SetActive(false);
 
         if (pauseGameDuringDialogue)
         {
