@@ -14,43 +14,60 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   defaultSpeakerName: 
   defaultSpeakerPortrait: {fileID: 0}
-  backgroundImage: {fileID: 0}
+  backgroundImage: {fileID: -5931932364317517272, guid: 050ea067aa4978041a7f19cc4eb551c6, type: 3}
   lines:
-  - speakerName: "Tr\u1ECDng"
-    text: Uhh uhh
-    portrait: {fileID: 0}
-  - speakerName: "Tr\u1ECDng"
-    text: "M\xECnh r\u01A1i 2 l\u1EA7n trong c\xF9ng 1 ng\xE0y"
-    portrait: {fileID: 0}
-  - speakerName: "Tr\u1ECDng"
-    text: "Qu\xE1 t\xE0y r\u1ED3i"
-    portrait: {fileID: 0}
-  - speakerName: "Tr\u1ECDng"
-    text: "M\u1EB7t h\u1ED3 n\xE0y??"
-    portrait: {fileID: 0}
-  - speakerName: "Tr\u1ECDng"
-    text: "K\xEC l\u1EA1 th\u1EADt"
-    portrait: {fileID: 0}
-  - speakerName: "Tr\u1ECDng"
-    text: "T\u0129nh l\u1EB7ng nh\u01B0ng l\u1EA1i \u0111\u1EA7y ma l\u1EF1c"
-    portrait: {fileID: 0}
-  - speakerName: "Tr\u1ECDng"
-    text: "C\u1EE9 nh\u01B0... m\u1ED9t.. t\u1EBF.. \u0111\xE0n"
-    portrait: {fileID: 0}
-  - speakerName: "Tr\u1ECDng"
-    text: "Ch\xF3ng m\u1EB7t qu\xE1"
-    portrait: {fileID: 0}
-  - speakerName: "Tr\u1ECDng"
-    text: Aaaaaaaaaaaaaa
+  - speakerName: ???
+    text: "Ma l\u1EF1c c\u1EE7a k\u1EBB n\xE0y qu\xE1 \u0111\u1ED7i d\u1ED3i gi\xE0u."
     portrait: {fileID: 0}
   - speakerName: ???
-    text: Ha ha ha ha
+    text: "M\u1ED9t v\u1EADt ch\u1EE9a x\u1EE9ng \u0111\xE1ng."
     portrait: {fileID: 0}
-  - speakerName: ???
-    text: "\u0110\u1EBFn \u0111\xE2y n\xE0o nh\xF3c con."
+  - speakerName: "Tr\u1ECDng"
+    text: "Ch\u1EBFt ti\u1EC7t m\xECnh kh\xF4ng c\u1EED \u0111\u1ED9ng \u0111\u01B0\u1EE3c..."
+    portrait: {fileID: 0}
+  - speakerName: "Tr\u1ECDng"
+    text: ...
+    portrait: {fileID: 0}
+  - speakerName: "H\u1EC7 th\u1ED1ng"
+    text: "Linh h\u1ED3n c\u1EE7a b\u1EA1n \u0111\xE3 b\u1ECB th\u1EE9 g\xEC \u0111\xF3
+      chi\u1EBFm gi\u1EEF"
+    portrait: {fileID: 0}
+  - speakerName: "H\u1EC7 th\u1ED1ng"
+    text: "M\u1ED9t  Linh h\u1ED3n c\u1EE7a b\u1EA1n \u0111\xE3 b\u1ECB th\u1EE9
+      g\xEC \u0111\xF3 chi\u1EBFm gi\u1EEF"
+    portrait: {fileID: 0}
+  - speakerName: Abyss
+    text: "G\xCC c\u01A1 sao ta kh\xF4ng \u0111i\u1EC1u khi\u1EC3n \u0111\u01B0\u1EE3c
+      k\u1EBB n\xE0y."
+    portrait: {fileID: 0}
+  - speakerName: "Tr\u1ECDng"
+    text: Aaaa
+    portrait: {fileID: 0}
+  - speakerName: "Tr\u1ECDng"
+    text: "\u1EB6c \u1EB7c"
+    portrait: {fileID: 0}
+  - speakerName: "Tr\u1ECDng"
+    text: "Kh\xF4ng bi\u1EBFt c\xF3 chuy\u1EC7n g\xEC s\u1EA9y ra  nh\u01B0ng m\xECnh
+      c\u1EA7n ch\u1EA1y kh\u1ECFi \u0111\xE2y ngay l\u1EADp t\u1EE9c."
+    portrait: {fileID: 0}
+  - speakerName: "H\u1EC7 Th\u1ED1ng"
+    text: "B\u1EA1n c\u1EA3m th\u1EA5y c\xF3 th\u1EE9 g\xEC \u0111\xF3 \u0111ang
+      tr\u1ED7i d\u1EADy"
+    portrait: {fileID: 0}
+  - speakerName: "H\u1EC7 Th\u1ED1ng"
+    text: "V\xE0 \u0111\xF3 kh\xF4ng ph\u1EA3i l\xE0 ma l\u1EF1c c\u1EE7a ban."
+    portrait: {fileID: 0}
+  - speakerName: "H\u1EC7 Th\u1ED1ng"
+    text: "M\u1ED9t s\u1EE9c m\u1EA1nh kh\xE1c \u0111ang h\u1EA5p th\u1EE5 ma l\u1EF1c
+      c\u1EE7a b\u1EA1n nh\u01B0ng c\u0169ng cho b\u1EA1n s\u1EE9c m\u1EA1nh"
+    portrait: {fileID: 0}
+  - speakerName: "H\u1EC7 Th\u1ED1ng"
+    text: "B\u1EA5m \"K\" \u0111\u1EC3 Dash"
     portrait: {fileID: 0}
   choices: []
   autoContinueNode: {fileID: 0}
+  unlockSkillOnEnter: 1
+  skillToUnlock: 0
   onEnter:
     m_PersistentCalls:
       m_Calls: []

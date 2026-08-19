@@ -17,15 +17,6 @@ MonoBehaviour:
   backgroundImage: {fileID: 0}
   lines:
   - speakerName: "Tr\u1ECDng"
-    text: Uhh uhh
-    portrait: {fileID: 0}
-  - speakerName: "Tr\u1ECDng"
-    text: "M\xECnh r\u01A1i 2 l\u1EA7n trong c\xF9ng 1 ng\xE0y"
-    portrait: {fileID: 0}
-  - speakerName: "Tr\u1ECDng"
-    text: "Qu\xE1 t\xE0y r\u1ED3i"
-    portrait: {fileID: 0}
-  - speakerName: "Tr\u1ECDng"
     text: "M\u1EB7t h\u1ED3 n\xE0y??"
     portrait: {fileID: 0}
   - speakerName: "Tr\u1ECDng"
@@ -51,6 +42,8 @@ MonoBehaviour:
     portrait: {fileID: 0}
   choices: []
   autoContinueNode: {fileID: 0}
+  unlockSkillOnEnter: 0
+  skillToUnlock: 0
   onEnter:
     m_PersistentCalls:
       m_Calls: []

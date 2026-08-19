@@ -41,7 +41,30 @@ public class DialogueNode : ScriptableObject
              "Để trống (None) nếu đây là câu thoại cuối cùng -> hội thoại kết thúc.")]
     public DialogueNode autoContinueNode;
 
+    [Header("Mở khóa kỹ năng (tùy chọn)")]
+    [Tooltip("Bật nếu muốn tự động mở khóa 1 skill khi node này hiện ra (qua SkillUnlockManager.Instance). " +
+             "Thường đặt ở node cuối cùng của đoạn hội thoại (autoContinueNode = None, hoặc node dẫn tới " +
+             "kết thúc hội thoại/kết thúc nhánh choice).")]
+    public bool unlockSkillOnEnter = false;
+
+    [Tooltip("Skill sẽ được mở khóa nếu unlockSkillOnEnter = true.")]
+    public SkillType skillToUnlock;
+
     [Header("Sự kiện (tuỳ chọn)")]
     [Tooltip("Được gọi ngay khi node này hiện ra trên màn hình. Dùng để trigger quest, mở cửa, cộng item, v.v.")]
     public UnityEvent onEnter;
+
+    /// <summary>
+    /// Gọi hàm này (thay vì gọi onEnter.Invoke() trực tiếp) từ DialogueManager
+    /// mỗi khi node được hiển thị. Nó sẽ tự unlock skill (nếu có) rồi mới bắn onEnter.
+    /// </summary>
+    public void TriggerOnEnter()
+    {
+        if (unlockSkillOnEnter && SkillUnlockManager.Instance != null)
+        {
+            SkillUnlockManager.Instance.Unlock(skillToUnlock);
+        }
+
+        onEnter?.Invoke();
+    }
 }

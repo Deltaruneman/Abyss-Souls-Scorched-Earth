@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   defaultSpeakerName: 
   defaultSpeakerPortrait: {fileID: 8450617891289647664, guid: 0787d78164ac3f84c95b6a63ef5387c6, type: 3}
-  backgroundImage: {fileID: 5756380681857427472, guid: 48342a218dde26a40879bcc36df59226, type: 3}
+  backgroundImage: {fileID: 0}
   lines:
   - speakerName: 
     text: ...
@@ -45,6 +45,8 @@ MonoBehaviour:
     portrait: {fileID: 0}
   choices: []
   autoContinueNode: {fileID: 0}
+  unlockSkillOnEnter: 0
+  skillToUnlock: 0
   onEnter:
     m_PersistentCalls:
       m_Calls: []

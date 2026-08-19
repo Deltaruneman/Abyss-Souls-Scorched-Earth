@@ -146,10 +146,11 @@ public class DialogueManager : MonoBehaviour
         string line = (currentLine != null) ? currentLine.text : string.Empty;
         if (dialogueText != null) dialogueText.text = line;
 
-        // onEnter chỉ gọi 1 lần khi vừa vào node (ở câu đầu tiên), không gọi lại mỗi lần lướt câu
+        // onEnter (+ unlock skill nếu node có bật) chỉ gọi 1 lần khi vừa vào node (ở câu đầu tiên),
+        // không gọi lại mỗi lần lướt câu
         if (currentLineIndex == 0)
         {
-            currentNode.onEnter?.Invoke();
+            currentNode.TriggerOnEnter();
         }
 
         ClearChoiceButtons();
