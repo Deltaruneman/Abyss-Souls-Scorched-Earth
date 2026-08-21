@@ -116,7 +116,6 @@ public class DialogueManager : MonoBehaviour
     {
         currentNode = node;
         currentLineIndex = 0;
-        UpdateBackground(node.backgroundImage);
         DisplayCurrentLine();
     }
 
@@ -142,6 +141,12 @@ public class DialogueManager : MonoBehaviour
             ? currentLine.portrait
             : currentNode.defaultSpeakerPortrait;
         UpdatePortrait(portrait);
+
+        // Ưu tiên background riêng của câu thoại; nếu để trống thì dùng backgroundImage của node
+        Sprite background = (currentLine != null && currentLine.background != null)
+            ? currentLine.background
+            : currentNode.backgroundImage;
+        UpdateBackground(background);
 
         string line = (currentLine != null) ? currentLine.text : string.Empty;
         if (dialogueText != null) dialogueText.text = line;
@@ -197,8 +202,8 @@ public class DialogueManager : MonoBehaviour
         speakerPortraitImage.sprite = portrait;
     }
 
-    /// <summary>Cập nhật ảnh nền theo node hiện tại. Ẩn/giữ Image tuỳ theo hideBackgroundWhenEmpty
-    /// khi node không đặt backgroundImage riêng.</summary>
+    /// <summary>Cập nhật ảnh nền theo câu thoại hiện tại (line.background, fallback về node.backgroundImage).
+    /// Ẩn/giữ Image tuỳ theo hideBackgroundWhenEmpty khi cả line lẫn node đều không đặt background.</summary>
     private void UpdateBackground(Sprite background)
     {
         if (backgroundImage == null) return;
