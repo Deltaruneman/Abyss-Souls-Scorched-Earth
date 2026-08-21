@@ -20,6 +20,18 @@ public class PlayerController : MonoBehaviour
     [Range(0f, 1f)] public float airControlMultiplier = 0.8f;
     public float airDrag = 5f; // giu quan tinh khi roi neu khong co input
 
+    // ===================== [MOI] FLUID MOVEMENT (CURVE-BASED) =====================
+    // Chuyen doi tuy chon: thay vi noi suy tuyen tinh (linear) theo accel/decel (m/s^2),
+    // he thong nay dung AnimationCurve de noi suy van toc theo thoi gian -> cam giac
+    // tang/giam toc "co hon", giong Ori (nhanh o giua, muot o dau/cuoi).
+    // Bat/tat bang useCurveAcceleration; neu tat, code cu (linear) hoat dong y het truoc gio.
+    [Header("[Moi] Fluid Movement (Curve)")]
+    public bool useCurveAcceleration = false;
+    public AnimationCurve accelerationCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+    public float accelerationCurveDuration = 0.22f; // thoi gian (s) de dat toc do toi da khi co input
+    public AnimationCurve decelerationCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+    public float decelerationCurveDuration = 0.18f; // thoi gian (s) de dung han khi buong input
+
     // ===================== JUMP =====================
     [Header("Jump")]
     public float jumpForce = 14f;
@@ -42,6 +54,17 @@ public class PlayerController : MonoBehaviour
     [Range(0f, 1f)] public float dashVerticalMultiplier = 0.5f;
     public int dashDamage = 15;
 
+    // ===== [MOI] Dash tinh chinh: ease-out cuoi dash + bao toan mot phan quan tinh =====
+    // dashSpeedCurve: he so nhan vao dashSpeed theo % thoi gian da dash (0 -> 1).
+    // Mac dinh: giu ~100% toc do trong phan lon cu dash, roi giam nhe (ease-out) o doan cuoi
+    // de nhan vat khong bi "khung" dot ngot khi dash ket thuc.
+    public AnimationCurve dashSpeedCurve = new AnimationCurve(
+        new Keyframe(0f, 1f),
+        new Keyframe(0.65f, 1f),
+        new Keyframe(1f, 0.55f)
+    );
+    [Range(0f, 1f)] public float dashMomentumPreserved = 0.45f; // % van toc dash giu lai ngay sau khi dash xong
+
     [Space(8)]
     public LayerMask dashBounceLayer;
     public float dashBounceForce = 10f;
@@ -52,6 +75,36 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck;
     public Vector2 groundCheckSize = new Vector2(0.5f, 0.1f);
     public LayerMask groundLayer;
+
+    // ===================== [MOI] WALL INTERACTION =====================
+    // He thong Wall Slide / Wall Jump kieu Ori: cham tuong tren khong -> co the truot cham
+    // (giu phim huong vao tuong), hoac nhay bat ra. Phan biet 2 kieu wall jump:
+    //  - Leap  : buong huong (hoac giu huong ra xa tuong) -> bat XA, thien ve ngang.
+    //  - Climb : giu huong VAO tuong khi nhay -> bat LEN CAO, chi tach nhe khoi tuong.
+    [Header("[Moi] Wall Interaction")]
+    public Transform wallCheckFront; // rong thi tu dung transform cua player
+    public float wallCheckDistance = 0.55f;
+    public LayerMask wallLayer;
+    public bool requireHoldTowardWallToSlide = true; // true: phai giu phim huong vao tuong moi truot
+
+    [Space(8)]
+    public float wallSlideSpeed = 3f;          // toc do roi toi da khi dang truot tuong
+    public float wallSlideAcceleration = 25f;  // toc do noi suy den wallSlideSpeed
+
+    [Space(8)]
+    public float wallJumpLeapForceX = 15f;   // Leap: luc ngang, bat xa khoi tuong
+    public float wallJumpLeapForceY = 11f;   // Leap: luc doc, thap hon climb
+    public float wallJumpClimbForceX = 6f;   // Climb: luc ngang, chi du de tach khoi tuong
+    public float wallJumpClimbForceY = 16f;  // Climb: luc doc, cao hon leap de "bam" len tren
+    public float wallJumpLockDuration = 0.15f; // khoa dieu khien ngang ngan sau wall jump, tranh trieu tieu luc bat
+
+    // ===================== [MOI] GLIDE (KURO'S FEATHER) =====================
+    // Giu phim tren khong de giam trong luc xuong muc rat thap, cho phep luot xa hon
+    // thay vi roi tu do. Khong anh huong toi cac trang thai dash / wall-slide.
+    [Header("[Moi] Glide (Kuro's Feather)")]
+    public KeyCode glideKey = KeyCode.LeftShift;
+    [Range(0f, 1f)] public float glideGravityMultiplier = 0.15f; // % trong luc con lai khi luot gio
+    public float glideMaxFallSpeed = 2.2f; // toc do roi toi da rieng cho glide (nho hon maxFallSpeed thuong)
 
     // ===================== WEAPON / COMBAT =====================
     [Header("Weapon")]
@@ -163,6 +216,9 @@ public class PlayerController : MonoBehaviour
     [Header("Debug (chi doc)")]
     [SerializeField] private bool isGrounded;
     [SerializeField] private int jumpsRemaining;
+    [SerializeField] private bool isTouchingWall; // [Moi]
+    [SerializeField] private bool isWallSliding;  // [Moi]
+    [SerializeField] private bool isGliding;      // [Moi]
 
     // ===================== RUNTIME STATE =====================
     private Rigidbody2D rb;
@@ -186,6 +242,19 @@ public class PlayerController : MonoBehaviour
     private readonly HashSet<Enemy> enemiesHitThisDash = new HashSet<Enemy>();
 
     private readonly Collider2D[] groundCheckResults = new Collider2D[8];
+
+    // ===== [MOI] Runtime state: Wall Interaction =====
+    private int wallSide;          // 1 = tuong o ben phai, -1 = ben trai, 0 = khong cham tuong
+    private bool wasTouchingWall;  // de phat hien "vua cham tuong" -> hoi luot nhay
+    private float wallJumpLockTimer;
+
+    // ===== [MOI] Runtime state: Glide =====
+    private bool glideHeld;
+
+    // ===== [MOI] Runtime state: Curve-based acceleration =====
+    private float moveCurveTimer;
+    private float moveCurveStartSpeed;
+    private float moveCurveTargetSpeed;
 
     private float attackCooldownTimer;
     private readonly Collider2D[] attackHitResults = new Collider2D[8];
@@ -246,6 +315,8 @@ public class PlayerController : MonoBehaviour
         jumpHeld = Input.GetButton("Jump");
         coyoteTimeCounter = isGrounded ? coyoteTime : coyoteTimeCounter - Time.deltaTime;
 
+        glideHeld = Input.GetKey(glideKey); // [Moi] Glide: doc input tren Update, xu ly vat ly trong FixedUpdate
+
         // dem nguoc cac timer chung
         Tick(ref jumpBufferCounter);
         Tick(ref attackCooldownTimer);
@@ -255,6 +326,7 @@ public class PlayerController : MonoBehaviour
         Tick(ref meleeSkillCooldownTimer);
         Tick(ref rangedSkillCooldownTimer);
         Tick(ref skillRecoilLockTimer);
+        Tick(ref wallJumpLockTimer); // [Moi]
 
         HandleAmmoRegen();
 
@@ -297,7 +369,7 @@ public class PlayerController : MonoBehaviour
         if (isDashing)
         {
             dashTimer -= Time.deltaTime;
-            if (dashTimer <= 0f) isDashing = false;
+            if (dashTimer <= 0f) FinishDash(); // [Moi] truoc day: isDashing = false; gio ease-out + giu quan tinh
         }
 
         HandleJumpLogic();
@@ -328,9 +400,17 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // bo qua input di chuyen khi vua bi bounce/recoil de luc day khong bi triet tieu ngay
-            if (bounceLockTimer <= 0f && skillRecoilLockTimer <= 0f) HandleMovement();
-            HandleGravity();
+            // [Moi] Wall check + wall slide chi co y nghia khi khong dash/khong o duoi dat
+            CheckWall();
+            HandleWallSlide();
+
+            // bo qua input di chuyen khi vua bi bounce/recoil/wall-jump de luc day khong bi triet tieu ngay,
+            // va khi dang wall slide thi khoa han truc ngang (da xu ly ben trong HandleWallSlide)
+            bool inputLocked = bounceLockTimer > 0f || skillRecoilLockTimer > 0f || wallJumpLockTimer > 0f;
+            if (!inputLocked && !isWallSliding) HandleMovement();
+
+            // [Moi] Neu dang wall-slide thi truc Y da duoc HandleWallSlide dieu khien, khong ap dung gravity/glide nua
+            if (!isWallSliding) HandleGlide();
         }
     }
 
@@ -347,6 +427,14 @@ public class PlayerController : MonoBehaviour
     // ===================== MOVEMENT =====================
     private void HandleMovement()
     {
+        // [Moi] Cho phep chuyen sang gia toc theo AnimationCurve (cam giac fluid kieu Ori).
+        // Neu tat useCurveAcceleration, toan bo logic linear ben duoi giu nguyen y het ban goc.
+        if (useCurveAcceleration)
+        {
+            HandleMovementCurve();
+            return;
+        }
+
         float targetSpeed = moveInput * moveSpeed;
         float speedDiff = targetSpeed - rb.linearVelocity.x;
         float accelRate;
@@ -365,6 +453,44 @@ public class PlayerController : MonoBehaviour
 
         float movement = speedDiff * accelRate * Time.fixedDeltaTime;
         rb.linearVelocity = new Vector2(rb.linearVelocity.x + movement, rb.linearVelocity.y);
+    }
+
+    // [Moi] Gia toc/giam toc theo AnimationCurve: noi suy van toc truc X tu diem bat dau (moveCurveStartSpeed)
+    // den van toc muc tieu (moveCurveTargetSpeed) theo % thoi gian da trai qua, thay vi cong don tuyen tinh.
+    // Timer/gia tri start duoc reset moi khi muc tieu doi (bat/tat/doi huong input), giup dash/wall-jump
+    // ban giao van toc mot cach muot ma qua ResetMoveCurve().
+    private void HandleMovementCurve()
+    {
+        float targetSpeed = moveInput * moveSpeed;
+        bool hasInput = Mathf.Abs(targetSpeed) > 0.01f;
+
+        if (Mathf.Abs(targetSpeed - moveCurveTargetSpeed) > 0.01f)
+        {
+            moveCurveStartSpeed = rb.linearVelocity.x;
+            moveCurveTargetSpeed = targetSpeed;
+            moveCurveTimer = 0f;
+        }
+
+        float duration = hasInput ? accelerationCurveDuration : decelerationCurveDuration;
+        if (!isGrounded && hasInput) duration /= Mathf.Max(0.01f, airControlMultiplier); // tren khong: cham hon
+
+        AnimationCurve curve = hasInput ? accelerationCurve : decelerationCurve;
+
+        moveCurveTimer += Time.fixedDeltaTime;
+        float t = duration > 0f ? Mathf.Clamp01(moveCurveTimer / duration) : 1f;
+        float curveT = curve.Evaluate(t);
+
+        float newX = Mathf.LerpUnclamped(moveCurveStartSpeed, moveCurveTargetSpeed, curveT);
+        rb.linearVelocity = new Vector2(newX, rb.linearVelocity.y);
+    }
+
+    // [Moi] Ep duong cong gia toc "bat dau lai" tu van toc hien tai - goi sau dash/wall-jump
+    // de qua trinh gia toc tiep theo khong bi giat do du lieu curve cu con luu lai.
+    private void ResetMoveCurve()
+    {
+        moveCurveStartSpeed = rb.linearVelocity.x;
+        moveCurveTargetSpeed = moveInput * moveSpeed;
+        moveCurveTimer = 0f;
     }
 
     private void HandleFlip()
@@ -386,8 +512,18 @@ public class PlayerController : MonoBehaviour
     // ===================== JUMP =====================
     private void HandleJumpLogic()
     {
-        bool canCoyoteJump = coyoteTimeCounter > 0f && jumpsRemaining == maxJumpCount;
         bool wantsToJump = jumpPressedThisFrame || jumpBufferCounter > 0f;
+
+        // [Moi] Wall Jump uu tien hon nhay thuong/coyote khi dang cham tuong tren khong
+        if (wantsToJump && isTouchingWall && !isGrounded)
+        {
+            PerformWallJump();
+            jumpBufferCounter = 0f;
+            coyoteTimeCounter = 0f;
+            return;
+        }
+
+        bool canCoyoteJump = coyoteTimeCounter > 0f && jumpsRemaining == maxJumpCount;
 
         if (wantsToJump && (canCoyoteJump || jumpsRemaining > 0))
         {
@@ -395,6 +531,34 @@ public class PlayerController : MonoBehaviour
             jumpBufferCounter = 0f;
             coyoteTimeCounter = 0f;
         }
+    }
+
+    // [Moi] Wall Jump: phan biet Leap (bat xa) va Climb (bat len cao) dua theo huong input luc nhay.
+    //  - Giu huong VAO tuong (hoac khong giu phim nao) -> hieu la muon "bam" theo tuong -> Climb jump.
+    //  - Giu huong RA XA tuong -> nguoi choi chu dong muon thoat xa -> Leap.
+    private void PerformWallJump()
+    {
+        bool holdingAwayFromWall = (wallSide == 1 && moveInput < -0.1f) || (wallSide == -1 && moveInput > 0.1f);
+        float pushDir = -wallSide; // luon day nguoi choi ra xa tuong
+
+        if (holdingAwayFromWall)
+        {
+            // Leap: nhay bat xa khoi tuong, thien ve luc ngang
+            rb.linearVelocity = new Vector2(pushDir * wallJumpLeapForceX, 0f);
+            rb.AddForce(Vector2.up * wallJumpLeapForceY, ForceMode2D.Impulse);
+        }
+        else
+        {
+            // Climb jump: nhay bam len cao, chi tach nhe khoi tuong, thien ve luc doc
+            rb.linearVelocity = new Vector2(pushDir * wallJumpClimbForceX, 0f);
+            rb.AddForce(Vector2.up * wallJumpClimbForceY, ForceMode2D.Impulse);
+        }
+
+        isWallSliding = false;
+        wallJumpLockTimer = wallJumpLockDuration;
+        jumpsRemaining = Mathf.Max(jumpsRemaining, maxJumpCount - 1); // hoi lai it nhat 1 luot nhay tren khong, giong Ori
+
+        ResetMoveCurve(); // [Moi] de che do curve-based ban giao muot tu van toc wall-jump vua ap
     }
 
     private void PerformJump(bool isFirstJump)
@@ -424,6 +588,77 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // ===================== [MOI] WALL INTERACTION =====================
+    // Ban 2 tia ngang (trai/phai) tu wallCheckFront de biet tuong dang o ben nao,
+    // khong phu thuoc vao huong facing hien tai (tranh sai lech ngay sau khi Flip()).
+    private void CheckWall()
+    {
+        if (isGrounded)
+        {
+            isTouchingWall = false;
+            wallSide = 0;
+            wasTouchingWall = false;
+            return;
+        }
+
+        Vector2 origin = wallCheckFront != null ? (Vector2)wallCheckFront.position : (Vector2)transform.position;
+        bool hitRight = Physics2D.Raycast(origin, Vector2.right, wallCheckDistance, wallLayer);
+        bool hitLeft = Physics2D.Raycast(origin, Vector2.left, wallCheckDistance, wallLayer);
+
+        if (hitRight && !hitLeft) { isTouchingWall = true; wallSide = 1; }
+        else if (hitLeft && !hitRight) { isTouchingWall = true; wallSide = -1; }
+        else { isTouchingWall = false; wallSide = 0; }
+
+        // vua cham tuong (truoc do dang roi tu do) -> hoi lai luot nhay tren khong, giong co che coyote
+        if (isTouchingWall && !wasTouchingWall) jumpsRemaining = maxJumpCount;
+        wasTouchingWall = isTouchingWall;
+    }
+
+    // Truot cham tren tuong: khoa han truc X (dinh vao tuong) va cho truc Y tien dan ve -wallSlideSpeed
+    // thay vi roi tu do binh thuong, tao cam giac "bam tuong" truoc khi wall-jump.
+    private void HandleWallSlide()
+    {
+        bool holdingIntoWall = (wallSide == 1 && moveInput > 0.1f) || (wallSide == -1 && moveInput < -0.1f);
+
+        isWallSliding = isTouchingWall
+            && !isGrounded
+            && rb.linearVelocity.y <= 0.01f
+            && wallJumpLockTimer <= 0f
+            && (!requireHoldTowardWallToSlide || holdingIntoWall);
+
+        if (!isWallSliding) return;
+
+        float newY = Mathf.MoveTowards(rb.linearVelocity.y, -wallSlideSpeed, wallSlideAcceleration * Time.fixedDeltaTime);
+        rb.linearVelocity = new Vector2(0f, newY);
+    }
+
+    // ===================== [MOI] GLIDE (KURO'S FEATHER) =====================
+    // Neu dang giu glideKey tren khong va dang roi thi giam trong luc xuong con
+    // glideGravityMultiplier (vd 15%) va cham toc do roi o glideMaxFallSpeed rat thap.
+    // Neu khong du dieu kien luot gio thi rot ve HandleGravity() nhu binh thuong.
+    private void HandleGlide()
+    {
+        isGliding = glideHeld
+            && !isGrounded
+            && !isDashing
+            && !isMeleeSkillDashing
+            && rb.linearVelocity.y <= 0f;
+
+        if (!isGliding)
+        {
+            HandleGravity();
+            return;
+        }
+
+        // ap dung phan trong luc con lai (giong cach fallGravityMultiplier/lowJumpGravityMultiplier dang lam)
+        rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (glideGravityMultiplier - 1f) * Time.fixedDeltaTime;
+
+        if (rb.linearVelocity.y < -glideMaxFallSpeed)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, -glideMaxFallSpeed);
+        }
+    }
+
     // ===================== DASH =====================
     private void StartDash()
     {
@@ -450,11 +685,35 @@ public class PlayerController : MonoBehaviour
 
     private void HandleDashMovement()
     {
-        // giu van toc co dinh theo huong dash, bo qua trong luc
+        // [Moi] Thay vi khoa cung van toc dash tuyet doi, nhan them he so tu dashSpeedCurve theo
+        // % thoi gian da dash de tao ease-out nhe o cuoi cu dash, bo qua trong luc trong suot dash.
+        float progress = dashDuration > 0f ? 1f - Mathf.Clamp01(dashTimer / dashDuration) : 1f;
+        float curveMultiplier = dashSpeedCurve.Evaluate(progress);
+        float currentDashSpeed = dashSpeed * curveMultiplier;
+
         rb.linearVelocity = new Vector2(
-            dashDirection.x * dashSpeed,
-            dashDirection.y * dashSpeed * dashVerticalMultiplier
+            dashDirection.x * currentDashSpeed,
+            dashDirection.y * currentDashSpeed * dashVerticalMultiplier
         );
+    }
+
+    // [Moi] Ket thuc dash "mem": thay vi cat cung ve van toc di chuyen thuong ngay lap tuc,
+    // giu lai mot phan quan tinh theo huong dash (dashMomentumPreserved) de chuyen doi muot hon,
+    // roi de HandleMovement (linear hoac curve) tiep quan tu frame FixedUpdate ke tiep.
+    private void FinishDash()
+    {
+        isDashing = false;
+        dashTimer = 0f;
+
+        Vector2 preservedVelocity = dashDirection * dashSpeed * dashMomentumPreserved;
+        // truc Y: khong ep tang toc do roi/bay len ngoai y muon, chi lay gia tri nho hon giua 2 ben
+        float finalY = dashDirection.y > 0f
+            ? Mathf.Min(rb.linearVelocity.y, preservedVelocity.y)
+            : rb.linearVelocity.y;
+
+        rb.linearVelocity = new Vector2(preservedVelocity.x, finalY);
+
+        ResetMoveCurve(); // [Moi] de che do curve-based bat dau lai muot tu van toc con lai sau dash
     }
 
     private void CheckDashDamage()
@@ -959,6 +1218,12 @@ public class PlayerController : MonoBehaviour
             Gizmos.color = isGrounded ? Color.green : Color.red;
             Gizmos.DrawWireCube(groundCheck.position, groundCheckSize);
         }
+
+        // [Moi] Ve 2 tia wall check (trai/phai) tu wallCheckFront (hoac transform neu de trong)
+        Vector3 wallOrigin = wallCheckFront != null ? wallCheckFront.position : transform.position;
+        Gizmos.color = isTouchingWall ? Color.green : new Color(1f, 1f, 0f, 0.6f);
+        Gizmos.DrawLine(wallOrigin, wallOrigin + Vector3.right * wallCheckDistance);
+        Gizmos.DrawLine(wallOrigin, wallOrigin + Vector3.left * wallCheckDistance);
 
         if (attackPoint != null)
         {
