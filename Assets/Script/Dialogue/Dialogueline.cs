@@ -18,4 +18,8 @@ public class DialogueLine
     [Tooltip("Ảnh chân dung người nói câu này. Để trống nếu muốn dùng defaultSpeakerPortrait của Node " +
              "(người nói không đổi), hoặc để trống cả 2 nếu không cần hiện portrait.")]
     public Sprite portrait;
+
+    [Tooltip("Ảnh nền RIÊNG cho câu thoại này. Để trống nếu muốn dùng backgroundImage của Node " +
+             "(ảnh nền không đổi trong lúc node đang chạy), hoặc để trống cả 2 nếu không cần đổi ảnh nền.")]
+    public Sprite background;
 }
